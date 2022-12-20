@@ -1,0 +1,6 @@
+!.gitignore
+.env
+.cache
+dist
+node_modules
+index22.html
