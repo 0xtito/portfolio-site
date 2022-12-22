@@ -1,8 +1,9 @@
-import * as ethers from "ethers";
-import { Network, Alchemy } from "alchemy-sdk";
-// import puppeteer from "puppeteer";
-import dotenv from 'dotenv'
+const ethers = require('ethers');
+// import app from "./server.js"
+const { Network, Alchemy } = require('alchemy-sdk');
+const dotenv = require('dotenv');
 dotenv.config();
+
 
 const address = "0xD2128b1C22Bb80a4dae69fe149cD6fE9Ba7eB4aa"
 const url = process.env.MAINNET_URL;
@@ -15,9 +16,9 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 
-async function main() {
-  const ownersNfts = await alchemy.nft.getNftsForOwner(address);
-  console.log(ownersNfts.ownedNfts[11])
-}
+module.exports = async function getNfts() {
 
-main()
+
+  return await alchemy.nft.getNftsForOwner(address);
+
+}
