@@ -33,6 +33,18 @@ module.exports = {
             presets: ['@babel/preset-react']
           },
         },
+      },
+      {
+        test: /\.(png|gif)$/,
+        use: {
+            loader: 'file-loader'
+        }
+      },
+      {
+        test: /\.gif$/,
+        use: {
+          loader: 'file-loader'
+        }
       }
     ],
   },

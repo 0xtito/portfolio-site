@@ -18,7 +18,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack --mode development",
-    "server": "webpack-dev-server",
+    "wp-server": "webpack-dev-server",
     "start-server": "node server/server.js"
   },
   "proxy": "http://localhost:3001",
