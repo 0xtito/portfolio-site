@@ -3,23 +3,45 @@ body {
   color: #fff;
 }
 
+#main-header  {
+  display: flex;
+  justify-content: center
+}
+
+#root {
+/* display: flex; */
+/* flex-direction: column; */
+/* justify-content: center; */
+padding: 10px 150px
+}
+
 h1 {
   text-align: center;
   font-size: 3em;
 }
 
-ul {
+.list {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 10px;
 }
 
 li {
-  margin: 0 10px;
-  padding: 3px;
-  padding-bottom: 1px
+  margin: 0 20px;
+  font-size: 16px;
+  padding: 2px;
+  padding-bottom: 1px;
+  cursor: pointer;
+}
+
+.description {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 20px 0 0;
+  margin: 0;
+  /* justify-content: end; */
 }
 
 .clicked {
@@ -30,6 +52,41 @@ li {
 .not-clicked {
   border-bottom: none;
 }
+
+.image-container {
+  position: relative;
+  /* text-align: end; */
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 50px;
+}
+
+/* .image-display {
+  display: flex;
+  text-align: end;
+  justify-content: flex-end;
+  flex-direction: row;
+} */
+
+.nft-image {
+  position: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  /* text-align: center; */
+  
+  /* top: 50px;  */
+  width: 250px; /* adjust this value as needed */
+  height: 250px; /* adjust this value as needed */
+}
+
+
+.image-title {
+  /* position: relative; */
+  /* text-align: center; */
+  /* margin: 10px 0; */
+  cursor: default;
+}
+
 
 nav a {
   color: #fff;
