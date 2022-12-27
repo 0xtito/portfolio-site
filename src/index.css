@@ -143,6 +143,7 @@ li {
 .image-title {
   text-align: center;
   cursor: default;
+  margin: 0 auto 0;
 }
 
 a {
