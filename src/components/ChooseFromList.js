@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Descriptions from "./Descriptions";
 
 function ChooseFromList() {
   // Declare a state variable called "selected" with an initial value of "past"
