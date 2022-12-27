@@ -3,6 +3,8 @@ import React from "react";
 import "./index.css";
 import App from "./App.js";
 
-const root = ReactDom.createRoot(document.getElementById("main-container"));
+// console.log(document.getElementsByTagName("div")[0]);
+
+const root = ReactDom.createRoot(document.getElementsByTagName("div")[0]);
 
 root.render(<App />);
