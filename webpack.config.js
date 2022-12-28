@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: "./src/index.js",
@@ -13,7 +12,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
-  plugins: [new Dotenv()],
   module: {
     rules: [
       {
@@ -30,24 +28,24 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-react"],
+            presets: ['@babel/preset-react']
           },
         },
       },
       {
         test: /\.(png|gif)$/,
         use: {
-          loader: "file-loader",
-        },
+            loader: 'file-loader'
+        }
       },
       {
         test: /\.gif$/,
         use: {
-          loader: "file-loader",
-        },
-      },
+          loader: 'file-loader'
+        }
+      }
     ],
   },
 };
