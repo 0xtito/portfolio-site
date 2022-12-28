@@ -1,7 +1,15 @@
+@font-face {
+  font-family: "JUSTSansRegular";
+  src: local("JUSTSansRegular"), url("./fonts/just-sans/JUSTSansRegular.otf");
+}
+
 body {
-  background-color: #333;
-  color: #fff;
+  /* background-color: #333;  */
+  background-color: #222222;
+  font-family: JUSTSansRegular;
+  color: #f3efe0;
   margin: 0;
+  font-size: 14px;
   width: 100vw;
   height: 100vh;
 }
@@ -21,10 +29,20 @@ body {
   /* max-height: 10vh; */
 /* } */
 
+.pudgy {
+  /* display: none; */
+  grid-column: 1;
+  grid-row: 1;
+  width: 75px;
+  height: 75px;
+  margin: 0 auto auto auto;
+}
+
 .intro_content {
   margin: 0 auto 0 0;
   grid-column: 2/4;
   font-size: 1.1rem;
+  line-height: 1.25em;
 }
 
 .title-container {
@@ -36,12 +54,24 @@ body {
 
 .title {
   cursor: pointer;
-  font-size: 2em;
+  font-size: 3em;
+}
+
+.title-hover {
+  color: #22a39f;
+  transition: all 400ms ease-in-out;
+}
+
+.phrase {
+  font-size: small;
+  font-style: italic;
+  color: lightgray;
 }
 
 .show-eth {
-  text-emphasis-color: #c23e32;
-  transition: all 300ms ease-in-out;
+  /* color: #22a39f; */
+  /* transition: all 200ms ease-in-out; */
+  /* text-emphasis-color: #22a39f; */
 }
 
 .list-container {
@@ -62,7 +92,7 @@ body {
 
 li {
   margin: 0;
-  font-size: 16px;
+  /* font-size: 16px; */
   padding: 2px;
   padding-bottom: 1px;
   list-style: none;
@@ -85,6 +115,11 @@ li {
   margin-right: 7rem;
 }
 
+.return:hover {
+  color: #22a39f;
+  transition: all 200ms ease-in-out;
+}
+
 .description-container {
   margin: 0 auto;
   grid-column: 2;
@@ -99,7 +134,7 @@ li {
 }
 
 .clicked {
-  color: #ff1f41;
+  color: #22a39f;
 }
 
 .not-clicked {

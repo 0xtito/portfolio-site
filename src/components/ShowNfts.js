@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+const url = process.env.SERVER_URL;
+
 const defaultImage = require("../../images/default_image.png").default;
 
 let pudgy;
@@ -15,7 +17,8 @@ function ShowNfts() {
   const [caption, setCaption] = useState(null);
   const curCaption = useRef();
 
-  let url = "http://localhost:3001/api";
+  // let sentPudgy
+
   let header = new Headers({
     "Access-Control-Allow-Origin": "*",
   });
@@ -34,7 +37,6 @@ function ShowNfts() {
           method: "GET",
         });
         gifs = await gifs.json();
-        console.log(gifs);
 
         let gifPromises = gifs.map(async (obj) => {
           return fetch(`${url}/gifs/${obj.name}`);
@@ -85,42 +87,44 @@ function ShowNfts() {
     }
   }, []);
 
-  return (
-    <div>
-      {/* <a> */}
-      <img
-        className="nft-image"
-        src={image}
-        onMouseOver={(e) => {
-          let image = e.currentTarget;
-          let parent = image.parentElement;
-          let children = parent.children;
-          for (let i = 0; i < children.length; i++) {
-            let child = children[i];
-            if (child.classList.contains("hide-caption")) {
-              child.classList.replace("hide-caption", "show-caption");
-              // setName(name);
+  return {
+    jsx: (
+      <div>
+        {/* <a> */}
+        <img
+          className="nft-image"
+          src={image}
+          onMouseOver={(e) => {
+            let image = e.currentTarget;
+            let parent = image.parentElement;
+            let children = parent.children;
+            for (let i = 0; i < children.length; i++) {
+              let child = children[i];
+              if (child.classList.contains("hide-caption")) {
+                child.classList.replace("hide-caption", "show-caption");
+                // setName(name);
+              }
             }
-          }
-        }}
-        onMouseLeave={(e) => {
-          let image = e.currentTarget;
-          let parent = image.parentElement;
-          // let children = parent.childNodes;
-          let children = parent.children;
-          for (let i = 0; i < children.length; i++) {
-            console.log(child);
-            let child = children[i];
-            if (child.classList.contains("show-caption")) {
-              child.classList.replace("show-caption", "hide-caption");
+          }}
+          onMouseLeave={(e) => {
+            let image = e.currentTarget;
+            let parent = image.parentElement;
+            // let children = parent.childNodes;
+            let children = parent.children;
+            for (let i = 0; i < children.length; i++) {
+              let child = children[i];
+              if (child.classList.contains("show-caption")) {
+                child.classList.replace("show-caption", "hide-caption");
+              }
             }
-          }
-        }}
-      ></img>
-      {/* </a> */}
-      <p className="image-title hide-caption">{!name ? "" : name}</p>
-    </div>
-  );
+          }}
+        ></img>
+        {/* </a> */}
+        <p className="image-title hide-caption">{!name ? "" : name}</p>
+      </div>
+    ),
+    pudgy: pudgy,
+  };
 }
 
 function filterNfts(nftsObj, isOrdered) {
@@ -143,10 +147,8 @@ function filterNfts(nftsObj, isOrdered) {
         nft.metadata.image = `https://ipfs.io/ipfs/${key}`;
       }
     } else {
-      console.log(gifsArr);
       if (gifs.some((info) => info.id == nft.id)) {
         let el = gifs.find((info) => info.id == nft.id);
-        console.log(el);
         nft.metadata.animation_url = el.url;
       }
     }

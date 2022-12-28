@@ -1,6 +1,6 @@
 import ChooseFromList from "./components/ChooseFromList.js";
 import ShowNfts from "./components/ShowNfts.js";
-// import NftScroller from "./components/NftScroller.js";
+import Title from "./components/Title.js";
 import React, { useEffect, useState } from "react";
 
 // function App() {
@@ -16,56 +16,49 @@ import React, { useEffect, useState } from "react";
 //     </div>
 //   );
 // }
-
+const url = process.env.SERVER_URL;
 let eth = ".eth";
 
 function App() {
-  const { jsx, backJsx, description } = ChooseFromList();
-  const [eth, setEth] = useState(null);
+  const { jsx: listJsx, backJsx, description } = ChooseFromList();
+  const { jsx: nftsJsx, pudgy } = ShowNfts();
+  const [phrase, setPhrase] = useState(null);
+  const [intro, setIntro] = useState(null);
+  const [pudgyImg, setPudgyImg] = useState(null);
+
+  useEffect(() => {
+    fetch(`${url}/text/intro`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => setIntro(data));
+
+    fetch(`${url}/phrase`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((phrase) => setPhrase(phrase));
+
+    fetch(`${url}/nfts/pudgy`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((pudgy) => {
+        console.log(pudgy);
+        let img = pudgy.rawMetadata.image;
+        setPudgyImg(img);
+      });
+  }, []);
 
   return (
     <div>
       <div className="content-container content-grid">
         {/* <div grid-column="1"></div> */}
-        <div className="intro_content content_width">
-          I grew up in South Florida playing sports and always being with
-          friends. I went to Saint Andrew’s High School for academics and
-          lacrosse. After an amazing 4 years, I went to Lehigh University to
-          study Mechanical Engineering, however, two years in, I realized and
-          accepted that I had no idea what I wanted to do with my life, but
-          becoming a mechanical engineer and growing deeper in debt was the only
-          thing I was certain I was not going to do. After leaving, I spent the
-          next few years soul searching between jobs and hobbies, and ultimately
-          ended up entangled in the world of crypto and software engineering.
-          Now I spend my days coding, teaching children how to code, and
-          learning all I can about whatever interests me.
-        </div>
-        <div className="image-container">
-          <ShowNfts />
-        </div>
-        <div className="title-container">
-          <div
-            className="title"
-            onMouseOver={(e) => {
-              let title = e.currentTarget;
-              setEth(".eth");
-            }}
-            onMouseLeave={(e) => {
-              let title = e.currentTarget;
-              // title.classList.add("show-eth");
-              setEth("");
-            }}
-            onClick={() =>
-              window.open(
-                "https://app.ens.domains/name/0xtito.eth/details",
-                "_blank"
-              )
-            }
-          >
-            0xtito<span className="show-eth">{eth}</span>
-          </div>
-        </div>
-        <div className="list-container">{jsx}</div>
+        <img className="pudgy" src={pudgyImg}></img>
+        <div className="intro_content content_width">{intro}</div>
+        <div className="image-container">{nftsJsx}</div>
+        <Title phrase={phrase} />
+        <div className="list-container">{listJsx}</div>
         <div className="return-container">{backJsx}</div>
         <div className="description-container">
           <p className="description">{description}</p>
