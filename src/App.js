@@ -3,19 +3,6 @@ import ShowNfts from "./components/ShowNfts.js";
 import Title from "./components/Title.js";
 import React, { useEffect, useState } from "react";
 
-// function App() {
-//   return (
-//     <div >
-//       <h1>0xtito</h1>
-//       <div>
-//         <ChooseHeader />
-//       </div>
-//       <div className="image-container">
-//         <ShowNfts />
-//       </div>
-//     </div>
-//   );
-// }
 const url = process.env.SERVER_URL;
 let eth = ".eth";
 

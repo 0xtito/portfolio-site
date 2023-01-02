@@ -4,8 +4,6 @@ const dotenv = require("dotenv");
 let getNfts = require("./getNfts.js");
 const path = require("path");
 
-// console.log(kafka_gif)
-
 dotenv.config();
 
 const PORT = process.env.PORT | 3001;
