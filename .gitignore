@@ -3,5 +3,4 @@
 .cache
 dist
 node_modules
-src/fonts
 src/.DS_Store
