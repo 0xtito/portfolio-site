@@ -8,7 +8,10 @@ let pudgy;
 let resNfts, gifs, resImg;
 let gifsArr, finalGifs;
 
-function ShowNfts() {
+function ShowNfts(props) {
+  console.log(props.nfts);
+  const nfts = props.nfts;
+
   const [name, setName] = useState(null);
   const [contractAddress, setContractAddress] = useState(null);
   const [image, setImage] = useState(null);
@@ -18,41 +21,42 @@ function ShowNfts() {
   const curCaption = useRef();
 
   // let sentPudgy
+  let curNft = 0;
 
   let header = new Headers({
     "Access-Control-Allow-Origin": "*",
   });
 
   useEffect(() => {
-    let nfts;
+    // let nfts;
     let curNft = 0;
     async function fetchData() {
       try {
-        resNfts = await fetch(`${url}/nfts`, {
-          method: "GET",
-        });
-        let { nfts: nftsObj, orderNfts } = await resNfts.json();
+        // resNfts = await fetch(`${url}/nfts`, {
+        //   method: "GET",
+        // });
+        // let { nfts: nftsObj, orderNfts } = await resNfts.json();
 
-        gifs = await fetch(`${url}/gifs`, {
-          method: "GET",
-        });
-        gifs = await gifs.json();
+        // gifs = await fetch(`${url}/gifs`, {
+        //   method: "GET",
+        // });
+        // gifs = await gifs.json();
 
-        let gifPromises = gifs.map(async (obj) => {
-          return fetch(`${url}/gifs/${obj.name}`);
-          // return [await fetch(`${url}/gifs/${obj.name}`), obj]
-        });
-        let resGifsUrls = await Promise.all(gifPromises);
+        // let gifPromises = gifs.map(async (obj) => {
+        //   return fetch(`${url}/gifs/${obj.name}`);
+        //   // return [await fetch(`${url}/gifs/${obj.name}`), obj]
+        // });
+        // let resGifsUrls = await Promise.all(gifPromises);
 
-        // put the urls in resGifsUrls into resGifNames
-        gifs.forEach((obj, i) => {
-          obj.url = resGifsUrls[i].url;
-        });
+        // // put the urls in resGifsUrls into resGifNames
+        // gifs.forEach((obj, i) => {
+        //   obj.url = resGifsUrls[i].url;
+        // });
 
-        nfts = filterNfts(nftsObj, orderNfts);
+        // nfts = filterNfts(nftsObj, orderNfts);
 
-        setName(nfts[curNft].name);
-        setImage(nfts[curNft].metadata.image);
+        setName(nfts[0].title);
+        setImage(nfts[0].image);
         curCaption.current = name;
 
         setTimeout(() => {
@@ -66,18 +70,20 @@ function ShowNfts() {
     fetchData();
 
     function showNfts(nfts) {
+      console.log(nfts);
       let pauseTime = 3000;
       if (curNft == nfts.length) {
         curNft = 0;
       }
 
-      setName(nfts[curNft].name);
+      setName(nfts[curNft].title);
       curCaption.current = name;
       if (nfts[curNft].isAnimated) {
         pauseTime = 5000;
-        setImage(nfts[curNft].metadata.animation_url);
+        console.log(nfts[curNft].animationUrl);
+        setImage(nfts[curNft].animationUrl);
       } else {
-        setImage(nfts[curNft].metadata.image);
+        setImage(nfts[curNft].imageUrl);
       }
 
       curNft++;
@@ -87,44 +93,41 @@ function ShowNfts() {
     }
   }, []);
 
-  return {
-    jsx: (
-      <div>
-        {/* <a> */}
-        <img
-          className="nft-image"
-          src={image}
-          onMouseOver={(e) => {
-            let image = e.currentTarget;
-            let parent = image.parentElement;
-            let children = parent.children;
-            for (let i = 0; i < children.length; i++) {
-              let child = children[i];
-              if (child.classList.contains("hide-caption")) {
-                child.classList.replace("hide-caption", "show-caption");
-                // setName(name);
-              }
+  return (
+    <div className="image-container">
+      {/* <a> */}
+      <img
+        className="nft-image"
+        src={image}
+        onMouseOver={(e) => {
+          let image = e.currentTarget;
+          let parent = image.parentElement;
+          let children = parent.children;
+          for (let i = 0; i < children.length; i++) {
+            let child = children[i];
+            if (child.classList.contains("hide-caption")) {
+              child.classList.replace("hide-caption", "show-caption");
+              // setName(name);
             }
-          }}
-          onMouseLeave={(e) => {
-            let image = e.currentTarget;
-            let parent = image.parentElement;
-            // let children = parent.childNodes;
-            let children = parent.children;
-            for (let i = 0; i < children.length; i++) {
-              let child = children[i];
-              if (child.classList.contains("show-caption")) {
-                child.classList.replace("show-caption", "hide-caption");
-              }
+          }
+        }}
+        onMouseLeave={(e) => {
+          let image = e.currentTarget;
+          let parent = image.parentElement;
+          // let children = parent.childNodes;
+          let children = parent.children;
+          for (let i = 0; i < children.length; i++) {
+            let child = children[i];
+            if (child.classList.contains("show-caption")) {
+              child.classList.replace("show-caption", "hide-caption");
             }
-          }}
-        ></img>
-        {/* </a> */}
-        <p className="image-title hide-caption">{!name ? "" : name}</p>
-      </div>
-    ),
-    pudgy: pudgy,
-  };
+          }
+        }}
+      ></img>
+      {/* </a> */}
+      <p className="image-title hide-caption">{!name ? "" : name}</p>
+    </div>
+  );
 }
 
 function filterNfts(nftsObj, isOrdered) {
