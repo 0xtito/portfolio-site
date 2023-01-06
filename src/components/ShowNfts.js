@@ -9,7 +9,6 @@ let resNfts, gifs, resImg;
 let gifsArr, finalGifs;
 
 function ShowNfts(props) {
-  console.log(props.nfts);
   const nfts = props.nfts;
 
   const [name, setName] = useState(null);
@@ -54,9 +53,8 @@ function ShowNfts(props) {
         // });
 
         // nfts = filterNfts(nftsObj, orderNfts);
-
         setName(nfts[0].title);
-        setImage(nfts[0].image);
+        setImage(nfts[0].imageUrl);
         curCaption.current = name;
 
         setTimeout(() => {
@@ -70,18 +68,15 @@ function ShowNfts(props) {
     fetchData();
 
     function showNfts(nfts) {
-      console.log(nfts);
       let pauseTime = 3000;
       if (curNft == nfts.length) {
         curNft = 0;
       }
-
       setName(nfts[curNft].title);
       curCaption.current = name;
       if (nfts[curNft].isAnimated) {
         pauseTime = 5000;
-        console.log(nfts[curNft].animationUrl);
-        setImage(nfts[curNft].animationUrl);
+        setImage(nfts[curNft].animationUrl)
       } else {
         setImage(nfts[curNft].imageUrl);
       }
@@ -152,6 +147,7 @@ function filterNfts(nftsObj, isOrdered) {
     } else {
       if (gifs.some((info) => info.id == nft.id)) {
         let el = gifs.find((info) => info.id == nft.id);
+        console.log('hey')
         nft.metadata.animation_url = el.url;
       }
     }

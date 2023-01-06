@@ -1,47 +1,51 @@
 import React, { useState, useEffect, Fragment } from "react";
 
+import MainPage from "../../pages";
+
 function DisplayDescription(props) {
-  const { descriptions, isVisible } = props;
+  const { selectedDescription, isVisible } = props;
+  console.log(selectedDescription);
 
   const [selectedHeader, setSelectedHeader] = useState("");
-  const [selectedDescription, setDescription] = useState("");
-  const [displayBackButton, setDisplayBackButton] = useState(false);
+  // const [selectedDescription, setDescription] = useState("");
+  const [displayBackButton, setDisplayBackButton] = useState(isVisible);
 
   // useEffect(() => {}, []);
 
-  if (isVisible) {
+  if (displayBackButton) {
     return (
       <Fragment>
+        <MainPage/>
         <p
           className="return"
           onClick={(e) => {
-            useEffect(() => {
-              setDisplayBackButton(false);
-              selectedDescription("");
-              setSelectedHeader("");
-            }, []);
-            let parents = e.currentTarget.parentElement.parentElement.children;
-            for (let i = 0; i < parents.length; i++) {
-              if (parents[i].className == "list-container") {
-                let list = parents[i].children;
-                let items = list.item(0).children.item(0).children;
-                for (let j = 0; j < items.length; j++) {
-                  let item = items[j].children.item(0);
-                  if (item.classList.contains("clicked")) {
-                    item.classList.replace("clicked", "not-clicked");
-                    textMap[item.innerHTML].isClicked = false;
-                    setSelected(null);
-                    setIsSelected(false);
-                  }
-                }
-              }
+            let listItems = e.currentTarget.parentElement.parentElement.children
+            console.log(listItems)
+            // let parents = e.currentTarget.parentElement.children;
+            for (let i = 0; i < listItems.length; i++) {
+
+              
+              // if (parents[i].className == "list-container") {
+              //   let list = parents[i].children;
+              //   console.log(list)
+              //   let items = list.item(0).children.item(0).children;
+              //   for (let j = 0; j < items.length; j++) {
+              //     let item = items[j].children.item(0);
+              //     if (item.classList.contains("clicked")) {
+              //       item.classList.replace("clicked", "not-clicked");
+              //       textMap[item.innerHTML].isClicked = false;
+              //       setSelected(null);
+              //       setIsSelected(false);
+              //     }
+              //   }
+              // }
             }
           }}
         >
           {displayBackButton ? "back" : null}
         </p>
         <div className="description-container">
-          <p className="description">{descriptions[0].description}</p> 
+          <p className="description">{selectedDescription.description}</p> 
         </div>
       </Fragment>
     );
