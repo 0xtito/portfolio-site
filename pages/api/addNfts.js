@@ -4,9 +4,6 @@ const { Binary } = require('bson');
 const fs = require('fs');
 const path = require("path");
 const { Network, Alchemy } = require("alchemy-sdk");
-// const dotenv = require("dotenv");
-// dotenv.config();
-
 const address = "0xD2128b1C22Bb80a4dae69fe149cD6fE9Ba7eB4aa";
 const apiKey = process.env.API_KEY;
 const DB_PW = process.env.MONGO_PW;
@@ -98,34 +95,7 @@ async function addNftsToDB() {
         metadata: nft.rawMetadata,
       });
 
-      // nfts[`nft${i}`] = {
-      //   name: nft.title,
-      //   id: i,
-      //   order: orderByTitle.includes(nft.title)
-      //     ? orderByTitle.indexOf(nft.title)
-      //     : -1,
-      //   isAnimated: nft.rawMetadata.animation_url ? true : false,
-      //   contract: nft.contract,
-      //   metadata: nft.rawMetadata,
-      // };
     }
-
-    fs.readFile(filePathAtlanta, async (err, data) => {
-      // console.log(data, err);
-      const binaryObj = new Binary(data)
-      let complete = await gifCollection.insertOne({ title: "atlanta", gif: binaryObj})
-      console.log(complete.insertedId);
-    })
-
-    fs.readFile(filePathKafka, async (err, data) => {
-      // console.log(data, err);
-      const binaryObj = new Binary(data)
-      let complete = await gifCollection.insertOne({ title: "kafka", gif: binaryObj})
-      console.log(complete.insertedId);
-    })
-
-    // const res = await gifCollection.findOne({})
-    // console.log(Buffer.from(res.gif).toString('base64'));
 
     const finalNftArr = filterNfts(nftArr, true);
 
@@ -135,18 +105,9 @@ async function addNftsToDB() {
     const result = await nftsCollection.insertMany(finalNftArr);
     const pudgyResult = await pudgyCollection.insertOne(pudgy);
   } else {
-
     console.log("nfts already added");
-
   }
-
-  // console.log(descriptionCollection);
-
-  // await descriptionCollection.findOne(title)
-
   client.close();
-
-  // res.status(201).json({message: "description retrieved"})
 }
 
 function filterNfts(_rawNftsArr, isOrdered) {
@@ -167,16 +128,7 @@ function filterNfts(_rawNftsArr, isOrdered) {
     if (!nft.isAnimated && nft.metadata.image.startsWith("ipfs")) {
       let key = nft.metadata.image.split("//")[1];
       nft.metadata.image = `https://ipfs.io/ipfs/${key}`;
-    } else if (nft.isAnimated) {
-      let animationUrl = nft.metadata.animation_url;
-    }
-    
-    // else {
-    //   if (gifs.some((info) => info.id == nft.id)) {
-    //     let el = gifs.find((info) => info.id == nft.id);
-    //     nft.metadata.animation_url = el.url;
-    //   }
-    // }
+    } 
   }
   // order NFTs
   if (isOrdered) {

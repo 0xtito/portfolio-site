@@ -9,22 +9,20 @@ import Description from "../src/components/Description";
 import Title from "../src/components/Title";
 import DisplayDescription from "../src/components/DisplayDescription";
 
-// import "../src/index.css";
 const DB_PW = process.env.MONGO_PW;
 
 function MainPage(props) {
-  const [showDescription, setShowDescription] = useState(props.showDescription);
+  const [showDescription, setShowDescription] = useState(true);
   const [currentlySelected, setCurrentlySelected] = useState(null)
   // const { nftsJsx } = ShowNfts();
+  console.log(props);
 
-  // console.log(props.descriptions);
-
-  const handleBack = () => {
+  const handleBack = (e) => {
     if (showDescription == true) {
       setShowDescription(false);
     }
     setShowDescription(!showDescription);
-    console.log(e);
+    console.log(e)
     console.log("pressed");
   };
 
@@ -48,20 +46,6 @@ function MainPage(props) {
           descriptions={JSON.stringify(props.descriptions)}
           onClick={handleBack}
         ></ChooseFromList>
-        {showDescription && (
-          <div className="description-container">
-            <DisplayDescription
-              descriptions={JSON.stringify(props.descriptions)}
-              isVisible={showDescription}
-            />
-          </div>
-        )}
-        {/* <div className="description-container">
-          <Description
-            visible={showDescription}
-            descriptions={JSON.stringify(props.descriptions)}
-          />
-        </div> */}
       </div>
     </Fragment>
   );
@@ -86,15 +70,12 @@ export async function getStaticProps() {
   const nftsCollection = dbNft.collection("nfts");
   const pudgyCollection = dbNft.collection("pudgy");
 
-  // console.log(descriptionCollection);
 
   const descriptions = await descriptionCollection.find().toArray();
   const nfts = await nftsCollection.find().toArray();
   const intro = await introCollection.findOne();
   const pudgy = await pudgyCollection.findOne();
-  // console.log(nfts)
-  // console.log(descriptions);
-  // console.log(pudgy)
+
 
   clientDescription.close();
   clientNft.close();
