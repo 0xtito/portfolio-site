@@ -5,6 +5,7 @@ import MainPage from "../../pages";
 
 function DisplayDescription(props) {
   const { selectedDescription, isVisible } = props;
+  console.log(selectedDescription)
   const router = useRouter();
   console.log();
 

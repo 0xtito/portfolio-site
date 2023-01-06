@@ -2,36 +2,112 @@ import { MongoClient } from "mongodb";
 // import ChooseFromList from "../../src/components/ChooseFromList";
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef, useLayoutEffect } from "react";
 import LRU from "lru-cache";
+import localforage from "localforage";
 
 const DB_PW = process.env.MONGO_PW;
 // const cache = new LRU({ max: 4 });
 
 function DescriptionData(props) {
-  const [data, setData] = useState(null);
+  const [mainData, setMainData] = useState({
+    descriptions: {},
+    intro: "",
+    nfts: {},
+    pudgyImg: "",
+  });
+  const [selectedListItem, setSelectedListItem] = useState({
+    title: "hey",
+    description: "hey",
+  });
+  const [initData, setInitData] = useState(false);
+  const [initDescription, setInitDescription] = useState(false);
   let { descriptions, intro, nfts, pudgyImg, selectedDescription, isVisible } =
     props;
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   async function getData() {
+  //     const _data = await localforage.getItem("globalProps");
+  //     setMainData(_data);
+  //     setInitData(true)
+  //   }
+
+  //   async function getDescription() {
+  //     const _data = await localforage.getItem("selectedTotalDescription");
+  //     console.log(`inside getDescription`, _data)
+  //     setSelectedListItem(_data);
+  //     if (_data.title == "") {
+  //       setInitDescription(false)
+  //     } else {
+  //       setInitDescription(true);
+  //     }
+  //   }
+  //   getData();
+  //   getDescription()
+  //   // const _data = cache.calculatedSize;
+  //   // console.log(_data);
+  //   // setData(_data);
+  // }, []);
+
+  useLayoutEffect(() => {
+    async function getData() {
+      const _data = await localforage.getItem("globalProps");
+      setMainData(_data);
+      setInitData(true)
+    }
+
+    async function getDescription() {
+      const _data = await localforage.getItem("selectedTotalDescription");
+      console.log(`inside getDescription`, _data)
+      setSelectedListItem(_data);
+      if (_data.title == "") {
+        setInitDescription(false)
+      } else {
+        setInitDescription(true);
+      }
+    }
+    getData();
+    getDescription()
     // const _data = cache.calculatedSize;
     // console.log(_data);
     // setData(_data);
   }, []);
 
   return (
-    <div className="content-container content-grid">
-      <BasePage
-        descriptions={descriptions}
-        intro={intro}
-        nfts={nfts}
-        pudgyImg={pudgyImg}
-      />
-      <DisplayDescription
-        selectedDescription={selectedDescription}
-        isVisible={isVisible}
-      />
-    </div>
+    <Fragment>
+      {console.log(initData, initDescription)}
+      {initData && initDescription ? (
+        <div className="content-container content-grid">
+          <BasePage
+            descriptions={mainData.descriptions}
+            intro={mainData.intro}
+            nfts={mainData.nfts}
+            pudgyImg={mainData.pudgyImg}
+            isRoot={false}
+            testData={initData}
+          />
+          <DisplayDescription
+            selectedDescription={{title: selectedListItem.title, description: selectedListItem.description}}
+            isVisible={true}
+          />
+        </div>
+      ) : (
+        <div className="content-container content-grid">
+          <BasePage
+            descriptions={descriptions}
+            intro={intro}
+            nfts={nfts}
+            pudgyImg={pudgyImg}
+            isRoot={false}
+            testData={initData}
+          />
+          <DisplayDescription
+            selectedDescription={selectedDescription}
+            isVisible={isVisible}
+          />
+        </div>
+      )}
+    </Fragment>
   );
 }
 
@@ -149,9 +225,10 @@ export async function getStaticProps(context) {
         title: selectedDescription.title,
         description: selectedDescription.description,
       },
-      isVisible: selectedDescription ? true : false,
+      isVisible: selectedDescription.title != "" ? true : false,
+      test: 'test'
     },
-    revalidate: 1,
+    revalidate: 1000,
   };
 }
 

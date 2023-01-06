@@ -40,6 +40,7 @@ div {
   width: 75px;
   height: 75px;
   margin: 0 auto auto auto;
+  padding-right: 1rem
 }
 
 .intro_content {
@@ -144,6 +145,8 @@ li {
   overflow: hidden;
   margin: 0;
   font-size: small;
+  /* margin-right: 25%; */
+  padding-right: 25%;
 }
 
 .clicked {

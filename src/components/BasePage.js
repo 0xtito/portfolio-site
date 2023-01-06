@@ -9,6 +9,8 @@ import ShowNfts from "./ShowNfts";
 // import Description from "../src/components/Description";
 import Title from "./Title";
 import DisplayDescription from "./DisplayDescription";
+import localforage from "localforage";
+
 
 const cache = new LRU({ max: 4 });
 // console.log(localStorage);

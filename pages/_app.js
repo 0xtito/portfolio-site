@@ -1,12 +1,15 @@
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import "../src/index.css";
 
 function PortfolioSite({ Component, pageProps }) {
-  // console.log(Component)
+  const descriptionsRef = useRef();
+  descriptionsRef.current = pageProps;
+  console.log(descriptionsRef.current)
+  console.log(Component)
   return (
     <Fragment>
-      <div data-rootinfo={pageProps} />
-      <Component {...pageProps} />
+      <div data-desc-info={descriptionsRef} />
+      <Component {...pageProps} id="test" />
     </Fragment>
   );
 }

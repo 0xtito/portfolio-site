@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import localforage from "localforage";
 
 function ChooseFromList(props) {
   const descriptions = JSON.parse(props.descriptions);
-  // console.log(props);
+  console.log(descriptions);
   const router = useRouter();
   const currentTitle = useRef();
 
@@ -22,18 +23,34 @@ function ChooseFromList(props) {
 
   // console.log(props)
 
-  useEffect(() => {
-    // fetch(`${url}/text/description-text`, {
-    //   method: "GET",
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     setTextMap(data);
-    //   });
-    // setTextMap(Object.keys(props.descriptions).map( ()));
-    // console.log(textMap);
-  }, []);
+  useLayoutEffect(() => {
+    setDescription(isSelected, selectedTitle, descriptions);
+  });
+
+  // useEffect(() => {
+  //   async function setDescription() {
+  //     if (isSelected) {
+  //       console.log('storing description')
+  //       await localforage.setItem("selectedTotalDescription", descriptions.filter( (des) => {
+  //         return des.title == selectedTitle;
+  //       }))
+  //     } else {
+  //       // console.log('not selected')
+  //       // await localforage.setItem("selectedTotalDescription", {title: "", description: ""})
+  //     }
+  //   }
+  //   setDescription()
+  //   // fetch(`${url}/text/description-text`, {
+  //   //   method: "GET",
+  //   // })
+  //   //   .then((res) => res.json())
+  //   //   .then((data) => {
+  //   //     console.log(data);
+  //   //     setTextMap(data);
+  //   //   });
+  //   // setTextMap(Object.keys(props.descriptions).map( ()));
+  //   // console.log(textMap);
+  // }, []);
 
   let curTarget;
   let elementIsClicked = false;
@@ -45,40 +62,63 @@ function ChooseFromList(props) {
         {/* Render a list item for each key in the textMap object */}
         {Object.values(descriptions).map((key) => (
           <li key={key.title}>
-            <a
-              className="list-item not-clicked"
-              id={key.title}
-              onClick={(e) => {
-                let list = e.currentTarget.parentElement.parentElement.children;
-                const listCount =
-                  e.currentTarget.parentElement.parentElement.childElementCount;
+            <Link href={`/${key.title}`} legacyBehavior>
+              <a
+                className="list-item not-clicked"
+                id={key.title}
+                onClick={(e) => {
+                  setIsSelected(true);
+                  setSelectedTitle(e.currentTarget.innerHTML);
+                  let list =
+                    e.currentTarget.parentElement.parentElement.children;
+                  const listCount =
+                    e.currentTarget.parentElement.parentElement
+                      .childElementCount;
 
-                for (let i = 0; i < list.length; i++) {
-                  let a = list[i].children.item(0);
+                  for (let i = 0; i < list.length; i++) {
+                    let a = list[i].children.item(0);
 
-                  if (a.innerHTML == e.currentTarget.innerHTML) {
-                    if (!a.classList.contains("clicked")) {
-                      a.classList.replace("not-clicked", "clicked");
-                      list[i].id = "clicked";
+                    if (a.innerHTML == e.currentTarget.innerHTML) {
+                      if (!a.classList.contains("clicked")) {
+                        a.classList.replace("not-clicked", "clicked");
+                        list[i].id = "clicked";
+                        localforage.setItem(
+                          "selectedTitle",
+                          e.currentTarget.innerHTML
+                        );
+                      }
+                    } else {
+                      list[i].id = "";
+                      a.classList.contains("clicked")
+                        ? a.classList.replace("clicked", "not-clicked")
+                        : a.classList.add("not-clicked");
                     }
-                  } else {
-                    list[i].id = "";
-                    a.classList.contains("clicked")
-                      ? a.classList.replace("clicked", "not-clicked")
-                      : a.classList.add("not-clicked");
                   }
-                }
-                showDescriptionHandler(e.currentTarget.innerHTML);
-                curTarget = e.currentTarget.innerHTML;
-              }}
-            >
-              {key.title}
-            </a>
+                  // showDescriptionHandler(e.currentTarget.innerHTML);
+                  curTarget = e.currentTarget.innerHTML;
+                }}
+              >
+                {key.title}
+              </a>
+            </Link>
           </li>
         ))}
       </ol>
     </div>
   );
+}
+
+async function setDescription(isSelected, selectedTitle, descriptions) {
+  if (isSelected) {
+    console.log("storing description");
+    const des = await localforage.setItem(
+      "selectedTotalDescription",
+      descriptions.filter((des) => {
+        return des.title == selectedTitle;
+      })
+    );
+    console.log(des);
+  }
 }
 
 export default ChooseFromList;

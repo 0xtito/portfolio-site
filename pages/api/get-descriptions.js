@@ -1,6 +1,4 @@
 import { MongoClient } from "mongodb";
-// const dotenv = require('dotenv');
-// dotenv.config();
 
 const DB_PW = process.env.MONGO_PW;
 
@@ -19,7 +17,7 @@ async function handler(req, res) {
 
     const descriptionCollection = db.collection('descriptions');
 
-    console.log(descriptionCollection)
+    // console.log(descriptionCollection)
 
     await descriptionCollection.findOne(title)
 

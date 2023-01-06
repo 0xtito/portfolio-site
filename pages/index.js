@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import LRU from "lru-cache";
+import localforage from "localforage";
 
 import ChooseFromList from "../src/components/ChooseFromList";
 import ShowNfts from "../src/components/ShowNfts";
@@ -20,6 +21,7 @@ function MainPage(props) {
 
   const [showDescription, setShowDescription] = useState(false);
   const [currentlySelected, setCurrentlySelected] = useState(null);
+  const [storedData, setStoredData] = useState(false);
   const router = useRouter();
   const { title } = router.query;
 
@@ -31,6 +33,13 @@ function MainPage(props) {
     console.log(e);
     console.log("pressed");
   };
+
+  useEffect( () => {
+    async function storeProps() {
+      await localforage.setItem('globalProps', props)
+    }
+    storeProps();
+  }, [])
 
   return (
     <div className="content-container content-grid">
@@ -129,7 +138,7 @@ export async function getStaticProps() {
     }))
   );
   cache.set("pudgyImg", pudgy.rawMetadata.image);
-  console.log(cache.get("descriptions"));
+  // console.log(cache.get("descriptions"));
 
   return {
     props: {
@@ -148,7 +157,7 @@ export async function getStaticProps() {
       })),
       pudgyImg: pudgy.rawMetadata.image,
     },
-    revalidate: 1,
+    revalidate: 1000,
   };
 }
 
