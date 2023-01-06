@@ -14,6 +14,10 @@ body {
   height: 100vh;
 }
 
+div {
+  display: grid;
+}
+
 .main-container {
   min-height: 100vh;
 }
@@ -98,21 +102,22 @@ li {
   list-style: none;
 }
 
-.return-container {
+.back-container {
   cursor: default;
   grid-row: 3;
-  grid-column: 1;
+  grid-column-start: 1;
+  grid-column-end: 2;
   text-align: start;
-  margin-left: 0;
+  margin-right: 0;
 }
 
-.return {
+.back {
+  display: grid;
   cursor: pointer;
-  grid-row: 3;
-  grid-column: 1;
   text-align: start;
+  margin: 0;
   margin-left: 0;
-  margin-right: 7rem;
+  /* margin-right: 7rem; */
 }
 
 .return:hover {
@@ -121,19 +126,21 @@ li {
 }
 
 .description-container {
-  margin: 0 auto;
-  grid-column: 1 / 3;
+  display: grid;
+  margin: 0;
+  grid-column-start: 2;
+  grid-column-end: 4;
   grid-row: 3;
 }
 
-.return {
+/* .return {
   margin: 0 auto;
   grid-column: 3;
   grid-row: 3;
-}
+} */
 
 .description {
-  padding: 20px 0 0;
+  padding: 0;
   overflow: hidden;
   margin: 0;
   font-size: small;
