@@ -15,17 +15,20 @@
     "path-browserify": "^1.0.1",
     "puppeteer": "^19.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "swr": "^2.0.0"
   },
   "name": "portfolio_site",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack --mode development",
+    "buildwp": "webpack --mode production",
+    "startwp": "webpack --mode development",
     "wp-server": "webpack-dev-server",
     "start-server": "node server/server.js",
-    "next-dev": "next dev"
+    "next-dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "proxy": "http://localhost:3001",
   "keywords": [],

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-const url = process.env.SERVER_URL;
+import { useState } from "react";
 
 function Title(props) {
   const [title, setTitle] = useState(props.title);
@@ -11,9 +9,8 @@ function Title(props) {
         className="title"
         onMouseOver={(e) => {
           let title = e.currentTarget;
-          setTitle(props.titleWithHover)
+          setTitle(props.titleWithHover);
           title.classList.add("title-hover");
-
         }}
         onMouseLeave={(e) => {
           let header = e.currentTarget;

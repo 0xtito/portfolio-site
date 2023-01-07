@@ -14,9 +14,9 @@ body {
   height: 100vh;
 }
 
-div {
+/* div {
   display: grid;
-}
+} */
 
 .main-container {
   min-height: 100vh;
@@ -40,7 +40,7 @@ div {
   width: 75px;
   height: 75px;
   margin: 0 auto auto auto;
-  padding-right: 1rem
+  padding-right: 1rem;
 }
 
 .intro_content {
@@ -108,22 +108,23 @@ li {
   grid-row: 3;
   grid-column-start: 1;
   grid-column-end: 2;
-  text-align: start;
-  margin-right: 0;
+  /* text-align: start; */
+  /* margin-right: 0; */
 }
 
 .back {
-  display: grid;
-  cursor: pointer;
   text-align: start;
-  margin: 0;
-  margin-left: 0;
-  /* margin-right: 7rem; */
+  /* margin: 0 auto 0 0; */
+  margin-right: 7rem;
+  margin-top: 0;
+  padding-top: 0;
+  /* pointer-events: auto; */
 }
 
-.return:hover {
+.back:hover {
   color: #22a39f;
   transition: all 200ms ease-in-out;
+  cursor: pointer;
 }
 
 .description-container {
