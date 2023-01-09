@@ -28,7 +28,8 @@
     "start-server": "node server/server.js",
     "next-dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "local-server": "node server/server.js"
   },
   "proxy": "http://localhost:3001",
   "keywords": [],
