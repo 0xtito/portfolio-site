@@ -9,6 +9,6 @@ module.exports = {
     ];
   },
   httpAgentOptions: {
-    keepAlive: false,
+    keepAlive: true,
   },
 };
