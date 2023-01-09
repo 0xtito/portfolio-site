@@ -1,5 +1,7 @@
 import Head from "next/head";
 import path from "path";
+import { MongoClient } from "mongodb";
+import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
@@ -26,36 +28,87 @@ function DescriptionData(props) {
 }
 
 export async function getStaticPaths() {
-  const url = "http://localhost:3000/";
-  const descriptionFilePath = path.join(url, "api", "descriptions");
+  // const url = process.env.SERVER_URL;
+  // const descriptionFilePath = path.join(url, "api", "descriptions");
 
-  const desRes = await fetch(descriptionFilePath);
-  const { descriptions } = await desRes.json();
+  // const DB_PW = process.env.MONGO_PW;
+
+  // const clientDescription = await MongoClient.connect(
+  //   `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
+  // );
+
+  // const dbDescription = clientDescription.db();
+  // const descriptionCollection = dbDescription.collection("descriptions");
+
+  // const descriptions = await descriptionCollection.find().toArray();
+  // const test = descriptions.map((des) => ({
+  //   params: { descriptionTitle: des.title },
+  // }));
+  // console.log(test);
 
   return {
     fallback: false,
-    paths: descriptions.map((des) => ({
-      params: { descriptionTitle: des.title },
-    })),
+    paths: [
+      {
+        params: {
+          descriptionTitle: "past",
+        },
+      },
+      {
+        params: {
+          descriptionTitle: "current",
+        },
+      },
+      {
+        params: {
+          descriptionTitle: "future",
+        },
+      },
+      {
+        params: {
+          descriptionTitle: "interests",
+        },
+      },
+    ],
   };
 }
 
 export async function getStaticProps(context) {
   const title = context.params.descriptionTitle;
 
-  const url = "http://localhost:3000/";
-  const nftFilePath = path.join(url, "api", "nfts");
-  const descriptionFilePath = path.join(url, "api", "descriptions");
+  const DB_PW = process.env.MONGO_PW;
 
-  const nftRes = await fetch(nftFilePath);
-  const { nfts, pudgyImg } = await nftRes.json();
+  const clientDescription = await MongoClient.connect(
+    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
+  );
 
-  const desRes = await fetch(descriptionFilePath);
-  const { descriptions, intro } = await desRes.json();
+  const clientNft = await MongoClient.connect(
+    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/images?retryWrites=true&w=majority`
+  );
 
-  const selectedDescriptionTotal = descriptions.filter(
-    (des) => des.title == title
-  )[0];
+  const dbDescription = clientDescription.db();
+  const dbNft = clientNft.db();
+
+  const descriptionCollection = dbDescription.collection("descriptions");
+  const introCollection = dbDescription.collection("intro");
+  const nftsCollection = dbNft.collection("nfts");
+  const pudgyCollection = dbNft.collection("pudgy");
+
+  const descriptions = await descriptionCollection.find().toArray();
+  const nfts = await nftsCollection.find().toArray();
+  const intro = await introCollection.findOne();
+  const pudgy = await pudgyCollection.findOne();
+
+  const selectedDes = await descriptionCollection
+    .find({
+      title: title,
+    })
+    .toArray();
+
+  const selectedDescription = selectedDes[0];
+
+  clientDescription.close();
+  clientNft.close();
 
   return {
     props: {
@@ -64,11 +117,18 @@ export async function getStaticProps(context) {
         description: des.description,
       })),
       intro: intro.intro,
-      nfts: nfts,
-      pudgyImg: pudgyImg,
+      nfts: nfts.map((nft) => ({
+        title: nft.name,
+        id: nft.id,
+        order: nft.order,
+        isAnimated: nft.isAnimated,
+        imageUrl: !nft.isAnimated ? nft.metadata.image : null,
+        animationUrl: nft.isAnimated ? nft.metadata.animation_url : null,
+      })),
+      pudgyImg: pudgy.rawMetadata.image,
       selectedDescription: {
-        title: selectedDescriptionTotal.title,
-        description: selectedDescriptionTotal.description,
+        title: selectedDescription.title,
+        description: selectedDescription.description,
       },
     },
     revalidate: 1,
