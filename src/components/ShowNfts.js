@@ -1,23 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-
-// const defaultImage = require("../../images/default_image.png").default;
+import Image from "next/image";
 
 function ShowNfts(props) {
   const orderNfts = true;
-
-  const [name, setName] = useState(null);
-  const [image, setImage] = useState(null);
+  const nfts = filterNfts(props.nfts, orderNfts);
+  const [name, setName] = useState(nfts[0].title);
+  const [image, setImage] = useState(nfts[0].imageUrl);
   const curCaption = useRef();
+  const curImageIndex = useRef();
 
   useEffect(() => {
     let curNft = 0;
     async function fetchData() {
       try {
-        const nfts = filterNfts(props.nfts, orderNfts);
-        setName(nfts[0].title);
-        setImage(nfts[0].imageUrl);
         curCaption.current = name;
-
         setTimeout(() => {
           curNft++;
           showNfts(nfts);
@@ -52,8 +48,12 @@ function ShowNfts(props) {
   return (
     <div className="image-container">
       <img
+        height={75}
+        width={75}
         className="nft-image"
         src={image}
+        loading="eager"
+        alt=""
         onMouseOver={(e) => {
           let image = e.currentTarget;
           let parent = image.parentElement;
