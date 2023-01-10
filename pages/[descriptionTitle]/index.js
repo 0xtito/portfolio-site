@@ -2,12 +2,16 @@ import Head from "next/head";
 import path from "path";
 import { MongoClient } from "mongodb";
 import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
+import localforage from "localforage";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
 
 function DescriptionData(props) {
-  let { descriptions, intro, nfts, pudgyImg, selectedDescription } = props;
+  let { descriptions, intro, nfts, pudgyImg, selectedDescription, fromRoot } =
+    props;
+
+  if (typeof window !== "undefined") handleStorage(descriptions);
 
   return (
     <div className="content-container content-grid">
@@ -21,6 +25,7 @@ function DescriptionData(props) {
         nfts={nfts}
         pudgyImg={pudgyImg}
         selectedTitle={selectedDescription.title}
+        fromRoot={fromRoot}
       />
       <DisplayDescription selectedDescription={selectedDescription} />
     </div>
@@ -41,10 +46,6 @@ export async function getStaticPaths() {
   const descriptionCollection = dbDescription.collection("descriptions");
 
   const descriptions = await descriptionCollection.find().toArray();
-  const test = descriptions.map((des) => ({
-    params: { descriptionTitle: des.title },
-  }));
-  console.log(test);
 
   return {
     fallback: false,
@@ -111,9 +112,33 @@ export async function getStaticProps(context) {
         title: selectedDescription.title,
         description: selectedDescription.description,
       },
+      fromRoot: false,
     },
     revalidate: 1,
   };
+}
+
+async function handleStorage(descriptions) {
+  const descriptionItem = window.localStorage.getItem("descriptions");
+  const curNftItem = window.localStorage.getItem("curNftIndex");
+
+  if (descriptionItem == null) {
+    window.localStorage.setItem("descriptions", descriptions);
+    console.log(window.localStorage.getItem("descriptions"));
+    console.log("set des storage");
+    // localforage
+    //   .setItem("descriptions", descriptions)
+    //   .then((log) => console.log("descriptions now set", log));
+  } else {
+    console.log("already stored");
+  }
+
+  if (curNftItem == null) {
+    window.localStorage.setItem("curNftIndex", 0);
+    console.log("set index");
+  } else {
+    console.log("already stored");
+  }
 }
 
 export default DescriptionData;

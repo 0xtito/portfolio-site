@@ -18,6 +18,10 @@ function ChooseFromList(props) {
               }`}
               id={key.title}
               onClick={(e) => {
+                let fakeTimeout = setTimeout(";");
+                for (let i = 0; i < fakeTimeout; i++) {
+                  clearTimeout(i);
+                }
                 let list = e.currentTarget.parentElement.parentElement.children;
                 for (let i = 0; i < list.length; i++) {
                   let a = list[i].children.item(0);

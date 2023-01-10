@@ -1,45 +1,72 @@
 import { useEffect, useRef, useState } from "react";
+import localforage from "localforage";
 
 function ShowNfts(props) {
+  // const localDB = props.localForage;
   const orderNfts = true;
   const nfts = filterNfts(props.nfts, orderNfts);
-  const [name, setName] = useState(nfts[0].title);
-  const [image, setImage] = useState(nfts[0].imageUrl);
+
+  // let index;
+  // if (typeof window === "undefined") {
+  //   console.log("hi");
+  //   index = localForage.getItem("portfolio-site/curNftIndex");
+  // }
+  // const index = localforage
+  //   .getItem("portfolio-info/curNftIndex")
+  //   .then((index) => index);
+  // const [currentNft, setCurrentNft] = useLocalStorage("nftIndex", 0);
+  const [image, setImage] = useState(null);
+  const [name, setName] = useState(null);
+
   const curCaption = useRef();
   const curImageIndex = useRef();
 
   useEffect(() => {
-    let curNft = 0;
     async function fetchData() {
       try {
-        curCaption.current = name;
-        setTimeout(() => {
-          curNft++;
-          showNfts(nfts);
-        }, 3000);
+        // console.log(window.localStorage.getItem("portfolio-site/curNftIndex"));
+        let index = window.localStorage.getItem("curNftIndex");
+        if (index == nfts.length) {
+          index = window.localStorage.setItem("curNftIndex", 0);
+        }
+        showNfts(nfts, index);
+        // setImage(nfts[index].imageUrl);
+        // setName(nfts[index].title);
+        // curCaption.current = name;
+        // setTimeout(() => {
+        //   window.localStorage.setItem("curNftIndex", index++);
+        //   let updatedIndex = parseInt(
+        //     window.localStorage.getItem("curNftIndex")
+        //   );
+        //   showNfts(nfts, updatedIndex);
+        // }, 3000);
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
 
-    function showNfts(nfts) {
+    function showNfts(nfts, index) {
+      let _index = index;
       let pauseTime = 3000;
-      if (curNft == nfts.length) {
-        curNft = 0;
-      }
-      setName(nfts[curNft].title);
-      curCaption.current = name;
-      if (nfts[curNft].isAnimated) {
-        pauseTime = 5000;
-        setImage(nfts[curNft].animationUrl);
-      } else {
-        setImage(nfts[curNft].imageUrl);
+
+      if (index == nfts.length) {
+        window.localStorage.setItem("curNftIndex", 0);
+        _index = window.localStorage.getItem("curNftIndex");
       }
 
-      curNft++;
+      setName(nfts[_index].title);
+      curCaption.current = name;
+      if (nfts[_index].isAnimated) {
+        pauseTime = 5000;
+        setImage(nfts[_index].animationUrl);
+      } else {
+        setImage(nfts[_index].imageUrl);
+      }
       setTimeout(() => {
-        showNfts(nfts);
+        let updatedIndex = parseInt(window.localStorage.getItem("curNftIndex"));
+        window.localStorage.setItem("curNftIndex", updatedIndex + 1);
+        showNfts(nfts, updatedIndex + 1);
       }, pauseTime);
     }
   }, []);
@@ -47,7 +74,7 @@ function ShowNfts(props) {
   return (
     <div className="image-container">
       <img
-        alt={setName}
+        alt="nft"
         className="nft-image"
         src={image}
         loading="eager"
@@ -77,6 +104,40 @@ function ShowNfts(props) {
       <p className="image-title hide-caption">{!name ? "" : name}</p>
     </div>
   );
+}
+
+function useLocalStorage(key, initValue) {
+  const [storedIndex, setStoredIndex] = useState(() => {
+    if (typeof window === "undefined") {
+      console.log("in server-side");
+      return initValue;
+    }
+
+    try {
+      // console.log(window.localStorage);
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(key) : initValue;
+    } catch (error) {
+      console.log(error);
+      return initValue;
+    }
+  });
+
+  const setIndexValue = (value) => {
+    try {
+      const indexToStore =
+        value instanceof Function ? value(indexToStore) : value;
+      setStoredIndex(value);
+
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(indexToStore));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return [storedIndex, setIndexValue];
 }
 
 function filterNfts(nftsArr, isOrdered) {

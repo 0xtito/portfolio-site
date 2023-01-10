@@ -11,7 +11,17 @@ function DisplayDescription(props) {
         <p
           className="back"
           onClick={() => {
-            router.replace("/");
+            if (typeof window !== "undefined") {
+              console.log("click back and in client");
+              const fakeTimeout = setTimeout(";");
+              for (let i = 0; i < fakeTimeout; i++) {
+                clearTimeout(i);
+              }
+              let index = window.localStorage.getItem("curNftIndex");
+            }
+            router.replace("/", undefined, {
+              shallow: true,
+            });
           }}
         >
           back
