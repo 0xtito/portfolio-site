@@ -12,7 +12,7 @@ function MainPage(props) {
     <div className="content-container content-grid">
       <Head>
         <title>home</title>
-        <meta name="0xtito" content="portfolio site" />
+        <meta name="0xtito" lang="en" content="portfolio site" />
       </Head>
       <BasePage
         descriptions={descriptions}

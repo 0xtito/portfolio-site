@@ -13,7 +13,7 @@ function DescriptionData(props) {
     <div className="content-container content-grid">
       <Head>
         <title>{selectedDescription.title}</title>
-        <meta name="home" content="portfolio site" />
+        <meta name="home" lang="en" content="portfolio site" />
       </Head>
       <BasePage
         descriptions={descriptions}
@@ -31,45 +31,26 @@ export async function getStaticPaths() {
   // const url = process.env.SERVER_URL;
   // const descriptionFilePath = path.join(url, "api", "descriptions");
 
-  // const DB_PW = process.env.MONGO_PW;
+  const DB_PW = process.env.MONGO_PW;
 
-  // const clientDescription = await MongoClient.connect(
-  //   `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
-  // );
+  const clientDescription = await MongoClient.connect(
+    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
+  );
 
-  // const dbDescription = clientDescription.db();
-  // const descriptionCollection = dbDescription.collection("descriptions");
+  const dbDescription = clientDescription.db();
+  const descriptionCollection = dbDescription.collection("descriptions");
 
-  // const descriptions = await descriptionCollection.find().toArray();
-  // const test = descriptions.map((des) => ({
-  //   params: { descriptionTitle: des.title },
-  // }));
-  // console.log(test);
+  const descriptions = await descriptionCollection.find().toArray();
+  const test = descriptions.map((des) => ({
+    params: { descriptionTitle: des.title },
+  }));
+  console.log(test);
 
   return {
     fallback: false,
-    paths: [
-      {
-        params: {
-          descriptionTitle: "past",
-        },
-      },
-      {
-        params: {
-          descriptionTitle: "current",
-        },
-      },
-      {
-        params: {
-          descriptionTitle: "future",
-        },
-      },
-      {
-        params: {
-          descriptionTitle: "interests",
-        },
-      },
-    ],
+    paths: descriptions.map((des) => ({
+      params: { descriptionTitle: des.title },
+    })),
   };
 }
 
