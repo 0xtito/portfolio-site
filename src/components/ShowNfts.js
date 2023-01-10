@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 function ShowNfts(props) {
   const orderNfts = true;
@@ -48,12 +47,10 @@ function ShowNfts(props) {
   return (
     <div className="image-container">
       <img
-        height={75}
-        width={75}
+        alt={setName}
         className="nft-image"
         src={image}
         loading="eager"
-        alt=""
         onMouseOver={(e) => {
           let image = e.currentTarget;
           let parent = image.parentElement;
