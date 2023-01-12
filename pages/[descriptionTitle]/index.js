@@ -1,17 +1,22 @@
 import Head from "next/head";
-import path from "path";
 import { MongoClient } from "mongodb";
-import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
-import localforage from "localforage";
+import { useRouter } from "next/router";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
 
 function DescriptionData(props) {
-  let { descriptions, intro, nfts, pudgyImg, selectedDescription, fromRoot } =
-    props;
+  const router = useRouter();
+  let { descriptions, intro, nfts, pudgyImg, init } = props;
 
-  if (typeof window !== "undefined") handleStorage(descriptions);
+  const selectedDescription = router.query.descriptionTitle;
+
+  if (typeof window !== "undefined") {
+    handleStorage();
+    window.onbeforeunload = () => {
+      window.localStorage.setItem("curNftIndex", 0);
+    };
+  }
 
   return (
     <div className="content-container content-grid">
@@ -25,9 +30,12 @@ function DescriptionData(props) {
         nfts={nfts}
         pudgyImg={pudgyImg}
         selectedTitle={selectedDescription.title}
-        fromRoot={fromRoot}
+        init={init}
       />
-      <DisplayDescription selectedDescription={selectedDescription} />
+      <DisplayDescription
+        selectedTitle={selectedDescription}
+        descriptions={descriptions}
+      />
     </div>
   );
 }
@@ -112,32 +120,17 @@ export async function getStaticProps(context) {
         title: selectedDescription.title,
         description: selectedDescription.description,
       },
-      fromRoot: false,
+      init: true,
     },
     revalidate: 1,
   };
 }
 
-async function handleStorage(descriptions) {
-  const descriptionItem = window.localStorage.getItem("descriptions");
+async function handleStorage() {
   const curNftItem = window.localStorage.getItem("curNftIndex");
 
-  if (descriptionItem == null) {
-    window.localStorage.setItem("descriptions", descriptions);
-    console.log(window.localStorage.getItem("descriptions"));
-    console.log("set des storage");
-    // localforage
-    //   .setItem("descriptions", descriptions)
-    //   .then((log) => console.log("descriptions now set", log));
-  } else {
-    console.log("already stored");
-  }
-
-  if (curNftItem == null) {
+  if (curNftItem == null || curNftItem == "NaN") {
     window.localStorage.setItem("curNftIndex", 0);
-    console.log("set index");
-  } else {
-    console.log("already stored");
   }
 }
 

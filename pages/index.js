@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MongoClient } from "mongodb";
 import Head from "next/head";
-import localforage from "localforage";
-import path from "path";
-
 import BasePage from "../src/components/BasePage";
 
 function MainPage(props) {
-  let { descriptions, intro, nfts, pudgyImg, fromRoot } = props;
-  // localforage.config({
-  //   name: "portfolio-info",
-  //   driver: localforage.LOCALSTORAGE,
-  // });
+  let { descriptions, intro, nfts, pudgyImg, init } = props;
 
-  // console.log(
-  //   localforage.getItem("descriptions").then((res) => console.log(res))
-  // );
-
-  if (typeof window !== "undefined") handleStorage(descriptions);
-
-  // if (typeof window === "undefined") {
-  //   console.log("in server-side", localforage);
-  // } else {
-
-  // }
+  if (typeof window !== "undefined") {
+    handleStorage();
+    window.onbeforeunload = () => {
+      window.localStorage.setItem("curNftIndex", 0);
+    };
+  }
 
   return (
     <div className="content-container content-grid">
@@ -37,7 +25,7 @@ function MainPage(props) {
         nfts={nfts}
         pudgyImg={pudgyImg}
         selectedTitle={null}
-        fromRoot={fromRoot}
+        init={init}
       />
     </div>
   );
@@ -67,12 +55,6 @@ export async function getStaticProps() {
   const intro = await introCollection.findOne();
   const pudgyImg = await pudgyCollection.findOne();
 
-  // console.log(
-  //   nfts.map((nft) => ({
-  //     url: !nft.Animated ? nft.metadata.image : nft.metadata.animation_url,
-  //   }))
-  // );
-
   return {
     props: {
       descriptions: descriptions.map((des) => ({
@@ -89,35 +71,17 @@ export async function getStaticProps() {
         animationUrl: nft.isAnimated ? nft.metadata.animation_url : null,
       })),
       pudgyImg: pudgyImg.rawMetadata.image,
-      fromRoot: true,
+      init: true,
     },
     revalidate: 1,
   };
 }
 
-async function handleStorage(descriptions) {
-  const descriptionItem = window.localStorage.getItem("descriptions");
+async function handleStorage() {
   const curNftItem = window.localStorage.getItem("curNftIndex");
 
-  if (descriptionItem == null) {
-    window.localStorage.setItem("descriptions", descriptions);
-    console.log(window.localStorage.getItem("descriptions"));
-    console.log("set des storage");
-    // localforage
-    //   .setItem("descriptions", descriptions)
-    //   .then((log) => console.log("descriptions now set", log));
-  } else {
-    console.log("already stored");
-  }
-
-  if (curNftItem == null) {
+  if (curNftItem == null || curNftItem == "NaN") {
     window.localStorage.setItem("curNftIndex", 0);
-    console.log("set index");
-    // localforage
-    //   .setItem("curNftIndex", 0)
-    //   .then((index) => console.log("set init nft index", index));
-  } else {
-    console.log("already stored");
   }
 }
 
