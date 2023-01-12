@@ -41,9 +41,6 @@ function DescriptionData(props) {
 }
 
 export async function getStaticPaths() {
-  // const url = process.env.SERVER_URL;
-  // const descriptionFilePath = path.join(url, "api", "descriptions");
-
   const DB_PW = process.env.MONGO_PW;
 
   const clientDescription = await MongoClient.connect(
