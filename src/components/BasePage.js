@@ -6,13 +6,17 @@ import ShowNfts from "./ShowNfts";
 import Title from "./Title";
 
 function BasePage(props) {
-  let { descriptions, intro, nfts, pudgyImg, selectedTitle, fromRoot } = props;
+  let { descriptions, intro, nfts, pudgyImg, selectedTitle, init } = props;
 
   return (
     <Fragment>
       <img className="pudgy" src={pudgyImg}></img>
       <div className="intro_content content_width">{intro}</div>
-      <ShowNfts nfts={nfts}></ShowNfts>
+      <ShowNfts
+        nfts={nfts}
+        selectedTitle={selectedTitle}
+        init={init}
+      ></ShowNfts>
       <Title
         title="0xtito"
         titleWithHover="0xtito.eth"
@@ -21,7 +25,6 @@ function BasePage(props) {
       <ChooseFromList
         descriptions={JSON.stringify(descriptions)}
         selectedTitle={selectedTitle}
-        fromRoot={fromRoot}
       ></ChooseFromList>
     </Fragment>
   );

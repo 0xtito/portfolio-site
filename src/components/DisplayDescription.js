@@ -2,8 +2,12 @@ import { useRouter } from "next/router";
 import { Fragment } from "react";
 
 function DisplayDescription(props) {
-  const { selectedDescription } = props;
+  const { selectedTitle, descriptions } = props;
   const router = useRouter();
+
+  const selectedDescription = descriptions.filter(
+    (des) => des.title == selectedTitle
+  )[0];
 
   return (
     <Fragment>
@@ -17,7 +21,6 @@ function DisplayDescription(props) {
               for (let i = 0; i < fakeTimeout; i++) {
                 clearTimeout(i);
               }
-              let index = window.localStorage.getItem("curNftIndex");
             }
             router.replace("/", undefined, {
               shallow: true,

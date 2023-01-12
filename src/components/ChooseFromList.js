@@ -12,15 +12,16 @@ function ChooseFromList(props) {
         {Object.values(descriptions).map((key) => (
           <li key={key.title} id={key.title}>
             <Link
+              shallow={true}
               href={`/${key.title}`}
               className={`list-item ${
                 id.descriptionTitle == key.title ? "clicked" : "not-clicked"
               }`}
               id={key.title}
               onClick={(e) => {
-                let fakeTimeout = setTimeout(";");
-                for (let i = 0; i < fakeTimeout; i++) {
-                  clearTimeout(i);
+                let fakeInterval = setInterval(";");
+                for (let i = 0; i < fakeInterval; i++) {
+                  clearInterval(i);
                 }
                 let list = e.currentTarget.parentElement.parentElement.children;
                 for (let i = 0; i < list.length; i++) {
