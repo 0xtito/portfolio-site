@@ -1,25 +1,19 @@
 import Head from "next/head";
 import { MongoClient } from "mongodb";
 import { useRouter } from "next/router";
+import { Fragment } from "react";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
 
 function DescriptionData(props) {
   const router = useRouter();
-  let { descriptions, intro, nfts, pudgyImg, init } = props;
+  let { descriptions, intro, nfts, pudgyImg, init, showNftsElement } = props;
 
   const selectedDescription = router.query.descriptionTitle;
 
-  if (typeof window !== "undefined") {
-    handleStorage();
-    window.onbeforeunload = () => {
-      window.localStorage.setItem("curNftIndex", 0);
-    };
-  }
-
   return (
-    <div className="content-container content-grid">
+    <Fragment>
       <Head>
         <title>{selectedDescription.title}</title>
         <meta name="home" lang="en" content="portfolio site" />
@@ -31,12 +25,13 @@ function DescriptionData(props) {
         pudgyImg={pudgyImg}
         selectedTitle={selectedDescription.title}
         init={init}
+        showNftsElement={showNftsElement}
       />
       <DisplayDescription
         selectedTitle={selectedDescription}
         descriptions={descriptions}
       />
-    </div>
+    </Fragment>
   );
 }
 

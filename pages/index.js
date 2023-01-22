@@ -1,20 +1,14 @@
-import React from "react";
-import { MongoClient } from "mongodb";
+import React, { Fragment } from "react";
 import Head from "next/head";
 import BasePage from "../src/components/BasePage";
+import { MongoClient } from "mongodb";
+import { Provider } from "../src/contexts/PortfolioContext";
 
 function MainPage(props) {
-  let { descriptions, intro, nfts, pudgyImg, init } = props;
-
-  if (typeof window !== "undefined") {
-    handleStorage();
-    window.onbeforeunload = () => {
-      window.localStorage.setItem("curNftIndex", 0);
-    };
-  }
+  const { descriptions, intro, pudgyImg, init } = props;
 
   return (
-    <div className="content-container content-grid">
+    <Fragment>
       <Head>
         <title>home</title>
         <meta name="0xtito" lang="en" content="portfolio site" />
@@ -22,12 +16,11 @@ function MainPage(props) {
       <BasePage
         descriptions={descriptions}
         intro={intro}
-        nfts={nfts}
         pudgyImg={pudgyImg}
         selectedTitle={null}
         init={init}
       />
-    </div>
+    </Fragment>
   );
 }
 
@@ -75,14 +68,6 @@ export async function getStaticProps() {
     },
     revalidate: 1,
   };
-}
-
-async function handleStorage() {
-  const curNftItem = window.localStorage.getItem("curNftIndex");
-
-  if (curNftItem == null || curNftItem == "NaN") {
-    window.localStorage.setItem("curNftIndex", 0);
-  }
 }
 
 export default MainPage;
