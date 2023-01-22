@@ -1,22 +1,16 @@
-import { Fragment } from "react";
-import React from "react";
+import React, { Fragment, useMemo, memo } from "react";
+import _ from "lodash";
 
 import ChooseFromList from "./ChooseFromList";
-import ShowNfts from "./ShowNfts";
 import Title from "./Title";
 
 function BasePage(props) {
-  let { descriptions, intro, nfts, pudgyImg, selectedTitle, init } = props;
+  let { descriptions, intro, pudgyImg, selectedTitle } = props;
 
   return (
     <Fragment>
       <img className="pudgy" src={pudgyImg}></img>
       <div className="intro_content content_width">{intro}</div>
-      <ShowNfts
-        nfts={nfts}
-        selectedTitle={selectedTitle}
-        init={init}
-      ></ShowNfts>
       <Title
         title="0xtito"
         titleWithHover="0xtito.eth"

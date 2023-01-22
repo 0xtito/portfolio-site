@@ -15,13 +15,6 @@ function DisplayDescription(props) {
         <p
           className="back"
           onClick={() => {
-            if (typeof window !== "undefined") {
-              console.log("click back and in client");
-              const fakeTimeout = setTimeout(";");
-              for (let i = 0; i < fakeTimeout; i++) {
-                clearTimeout(i);
-              }
-            }
             router.replace("/", undefined, {
               shallow: true,
             });

@@ -19,10 +19,6 @@ function ChooseFromList(props) {
               }`}
               id={key.title}
               onClick={(e) => {
-                let fakeInterval = setInterval(";");
-                for (let i = 0; i < fakeInterval; i++) {
-                  clearInterval(i);
-                }
                 let list = e.currentTarget.parentElement.parentElement.children;
                 for (let i = 0; i < list.length; i++) {
                   let a = list[i].children.item(0);
