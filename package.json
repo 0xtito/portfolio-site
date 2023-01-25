@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@vercel/edge-config": "^0.1.1",
     "alchemy-sdk": "^2.2.5",
     "axios": "^1.2.3",
     "bson": "^4.7.0",
@@ -18,7 +20,11 @@
     "puppeteer": "^19.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "swr": "^2.0.1"
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "sharp": "^0.31.3",
+    "swr": "^2.0.1",
+    "vercel": "^28.13.1"
   },
   "name": "portfolio_site",
   "version": "1.0.0",

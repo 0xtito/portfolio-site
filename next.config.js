@@ -58,9 +58,15 @@ module.exports = {
       {
         protocol: "https",
         port: "",
-        hostname: "github.com",
         pathname:
           "/0xtito/portfolio-site/blob/master/images/gifs/atlanta.gif?raw=true",
+        hostname: "github.com",
+      },
+      {
+        protocol: "https",
+        port: "",
+        pathname: "/lil/image/4495",
+        hostname: "api.pudgypenguins.io",
       },
     ],
   },
