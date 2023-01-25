@@ -6,6 +6,7 @@ import { Fragment } from "react";
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
 import MainPage from "../index";
+import { Provider } from "../../src/components/contexts/NftsContext";
 
 function DescriptionData(props) {
   const router = useRouter();
@@ -19,17 +20,19 @@ function DescriptionData(props) {
         <title>{selectedDescription.title}</title>
         <meta name="home" lang="en" content="portfolio site" />
       </Head>
-      <BasePage
-        descriptions={descriptions}
-        intro={intro}
-        nfts={nfts}
-        pudgyImg={pudgyImg}
-        selectedTitle={selectedDescription.title}
-      />
-      <DisplayDescription
-        selectedTitle={selectedDescription}
-        descriptions={descriptions}
-      />
+      <Provider value={pudgyImg}>
+        <BasePage
+          descriptions={descriptions}
+          intro={intro}
+          nfts={nfts}
+          pudgyImg={pudgyImg}
+          selectedTitle={selectedDescription.title}
+        />
+        <DisplayDescription
+          selectedTitle={selectedDescription}
+          descriptions={descriptions}
+        />
+      </Provider>
     </Fragment>
   );
 }

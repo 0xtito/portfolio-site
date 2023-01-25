@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { get } from "@vercel/edge-config";
 
 export const config = {
   runtime: "edge",
-  matcher: "/",
+  matcher: "/past",
 };
 
-export default (req) => {
-  return NextResponse.json({
-    name: `Hello, I am an edge function from ${req.url}`,
-  });
-};
+export default async function () {
+  const descriptions = await get("descriptions");
+
+  return NextResponse.json(descriptions);
+}
