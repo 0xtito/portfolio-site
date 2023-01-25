@@ -5,10 +5,11 @@ import { Fragment } from "react";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
 import BasePage from "../../src/components/BasePage";
+import MainPage from "../index";
 
 function DescriptionData(props) {
   const router = useRouter();
-  let { descriptions, intro, nfts, pudgyImg, init, showNftsElement } = props;
+  let { descriptions, intro, nfts, pudgyImg } = props;
 
   const selectedDescription = router.query.descriptionTitle;
 
@@ -24,8 +25,6 @@ function DescriptionData(props) {
         nfts={nfts}
         pudgyImg={pudgyImg}
         selectedTitle={selectedDescription.title}
-        init={init}
-        showNftsElement={showNftsElement}
       />
       <DisplayDescription
         selectedTitle={selectedDescription}
@@ -48,7 +47,7 @@ export async function getStaticPaths() {
   const descriptions = await descriptionCollection.find().toArray();
 
   return {
-    fallback: false,
+    fallback: "blocking",
     paths: descriptions.map((des) => ({
       params: { descriptionTitle: des.title },
     })),
@@ -116,14 +115,6 @@ export async function getStaticProps(context) {
     },
     revalidate: 1,
   };
-}
-
-async function handleStorage() {
-  const curNftItem = window.localStorage.getItem("curNftIndex");
-
-  if (curNftItem == null || curNftItem == "NaN") {
-    window.localStorage.setItem("curNftIndex", 0);
-  }
 }
 
 export default DescriptionData;

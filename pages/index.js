@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import Head from "next/head";
 import BasePage from "../src/components/BasePage";
 import { MongoClient } from "mongodb";
-import { Provider } from "../src/contexts/PortfolioContext";
+import { Provider } from "../src/components/contexts/NftsContext";
 
 function MainPage(props) {
-  const { descriptions, intro, pudgyImg, init } = props;
+  const { descriptions, intro, pudgyImg, nfts, init } = props;
 
   return (
     <Fragment>
@@ -13,13 +13,16 @@ function MainPage(props) {
         <title>home</title>
         <meta name="0xtito" lang="en" content="portfolio site" />
       </Head>
-      <BasePage
-        descriptions={descriptions}
-        intro={intro}
-        pudgyImg={pudgyImg}
-        selectedTitle={null}
-        init={init}
-      />
+      <Provider value={pudgyImg}>
+        <BasePage
+          descriptions={descriptions}
+          intro={intro}
+          pudgyImg={pudgyImg}
+          selectedTitle={null}
+          nfts={nfts}
+          init={init}
+        />
+      </Provider>
     </Fragment>
   );
 }
@@ -66,7 +69,7 @@ export async function getStaticProps() {
       pudgyImg: pudgyImg.rawMetadata.image,
       init: true,
     },
-    revalidate: 1,
+    revalidate: false,
   };
 }
 
