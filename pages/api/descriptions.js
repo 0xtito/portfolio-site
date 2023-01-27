@@ -3,11 +3,10 @@ import { get } from "@vercel/edge-config";
 
 export const config = {
   runtime: "edge",
-  matcher: "/past",
 };
 
 export default async function () {
-  const descriptions = await get("descriptions");
+  const descriptions = await get("nfts");
 
   return NextResponse.json(descriptions);
 }
