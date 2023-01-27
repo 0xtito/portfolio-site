@@ -1,23 +1,28 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-function ChooseFromList(props) {
-  const descriptions = JSON.parse(props.descriptions);
+function ChooseFromList({ descriptions: descriptionsProp }) {
+  const [descriptions, setDescriptions] = useState([]);
   const router = useRouter();
   const id = router.query;
+
+  useEffect(() => {
+    setDescriptions(descriptionsProp);
+  }, []);
 
   return (
     <div id="list-container" className="list-container">
       <ol id="list" className="list">
-        {Object.values(descriptions).map((key) => (
-          <li key={key.title} id={key.title}>
+        {descriptions.map(({ title }) => (
+          <li key={title} id={title}>
             <Link
               shallow={true}
-              href={`/${key.title}`}
+              href={`/${title}`}
               className={`list-item ${
-                id.descriptionTitle == key.title ? "clicked" : "not-clicked"
+                id.descriptionTitle == title ? "clicked" : "not-clicked"
               }`}
-              id={key.title}
+              id={title}
               onClick={(e) => {
                 let list = e.currentTarget.parentElement.parentElement.children;
                 for (let i = 0; i < list.length; i++) {
@@ -36,7 +41,7 @@ function ChooseFromList(props) {
                 }
               }}
             >
-              {key.title}
+              {title}
             </Link>
           </li>
         ))}

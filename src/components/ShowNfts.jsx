@@ -4,12 +4,13 @@ import Image from "next/image";
 import _ from "lodash";
 import axios from "axios";
 
-const defaultImageSrc =
-  "https://ipfs.io/ipfs/QmYHkHqChRBrBrCAfz3MLs2fh3i5jbprSaRRegahUkkY19";
+// const defaultImageSrc =
+//   "https://ipfs.io/ipfs/QmYHkHqChRBrBrCAfz3MLs2fh3i5jbprSaRRegahUkkY19";
 
-function ShowNfts({ nfts }) {
+function ShowNfts({ nfts, defaultNft }) {
+  // const [nfts, setNfts] = useState(nftsProp);
   const [isLoading, setIsLoading] = useState(true);
-  const [image, setImage] = useState(defaultImageSrc);
+  const [image, setImage] = useState(defaultNft);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const count = useRef(0);
   const id = useRef();
@@ -23,17 +24,14 @@ function ShowNfts({ nfts }) {
 
     if (nft.isAnimated) {
       timeLeft.current = 4500;
-      console.log("animated");
       setImage(nfts[index].animationUrl);
     } else {
       timeLeft.current = 3000;
-      console.log("not animated");
       setImage(nfts[index].imageUrl);
     }
   };
 
   const handleNewNft = () => {
-    console.log("handling");
     startTime.current = Date.now();
     id.current = window.setTimeout(() => {
       count.current += 1;
@@ -42,21 +40,20 @@ function ShowNfts({ nfts }) {
     }, timeLeft.current);
   };
 
-  useEffect(() => {
-    // if (!nfts) return null;
-
-    if (isFirstRender) {
-      count.current = 0;
-      console.log("inside first render");
-      // showNfts(nfts, count.current);
-      handleNewNft();
-      setIsFirstRender(false);
-    } else {
-      handleNewNft();
-    }
-  }, []);
-
-  // if (!nfts) return null;
+  // useEffect(() => {
+  // setNfts(nftsProp);
+  // handleNewNft();
+  // if (isFirstRender) {
+  //   count.current = 0;
+  //   // showNfts(nfts, count.current);
+  // setImage(defaultNft);
+  //   curCaption.current = "lonely nights";
+  //   // handleNewNft();
+  //   setIsFirstRender(false);
+  // } else {
+  //   handleNewNft();
+  // }
+  // }, []);
 
   return (
     <div className="image-container">
@@ -64,12 +61,12 @@ function ShowNfts({ nfts }) {
         height={350}
         width={350}
         // loader={() => image}
-        unoptimized
-        priority={image == defaultImageSrc}
+        // unoptimized
+        // priority={true}
         alt="nft"
         className="nft-image"
         src={image}
-        loading="eager"
+        // loading="lazy"
         onMouseOver={(e) => {
           let image = e.currentTarget;
           let parent = image.parentElement;
@@ -105,6 +102,6 @@ function ShowNfts({ nfts }) {
 }
 
 export default React.memo(ShowNfts, (prevProps, nextProps) => {
-  console.log(prevProps, nextProps, _.isEqual(prevProps, nextProps));
-  return _.isEqual(prevProps, nextProps);
+  // console.log(prevProps, nextProps, prevProps.nfts.length == 0);
+  return _.isEqual(prevProps, nextProps) || prevProps.nfts.length == 0;
 });
