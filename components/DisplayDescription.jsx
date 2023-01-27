@@ -1,8 +1,22 @@
 import { useRouter } from "next/router";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-function DisplayDescription({ selectedTitle, descriptions }) {
+function DisplayDescription({
+  selectedTitle,
+  descriptions,
+  selectedDescription: hey,
+}) {
   const router = useRouter();
+  const [currentDescription, setCurrentDescription] = useState({
+    title: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    setCurrentDescription(
+      descriptions.filter((des) => des.title == selectedTitle)[0]
+    );
+  }, [selectedTitle]);
 
   const selectedDescription = descriptions.filter(
     (des) => des.title == selectedTitle
@@ -23,7 +37,7 @@ function DisplayDescription({ selectedTitle, descriptions }) {
         </p>
       </div>
       <div className="description-container">
-        <p className="description">{selectedDescription.description}</p>
+        <p className="description">{currentDescription.description}</p>
       </div>
     </Fragment>
   );
