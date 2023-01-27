@@ -2,7 +2,34 @@ module.exports = {
   httpAgentOptions: {
     keepAlive: false,
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.gif$/,
+      use: [
+        {
+          loader: "url-loader",
+          options: {
+            limit: 8192,
+            mimetype: "image/gif",
+            fallback: "file-loader",
+            publicPath: "/.next/static/images/",
+            outputPath: "static/images/",
+          },
+        },
+      ],
+    });
+    return config;
+  },
   images: {
+    domains: [
+      "media.artblocks.io",
+      "media.artblocks.io",
+      "ipfs.io",
+      "kinesis.art",
+      "googleusercontent.com",
+      "github.com",
+      "api.pudgypenguins.io",
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -15,7 +42,7 @@ module.exports = {
         port: "",
         pathname:
           "/ipfs/QmZfGmXqVwAEaEWMnCmMLowjCdN9QJPk79SbXq3gmk1VfL/9667.jpg",
-        hostname: "ipfs.io",
+        hostname: "media.artblocks.io",
       },
       {
         protocol: "https",
