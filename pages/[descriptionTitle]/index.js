@@ -1,120 +1,57 @@
-import Head from "next/head";
-import { MongoClient } from "mongodb";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
+import { get } from "@vercel/edge-config";
 
 import DisplayDescription from "../../src/components/DisplayDescription";
-import BasePage from "../../src/components/BasePage";
-import MainPage from "../index";
-import { Provider } from "../../src/components/contexts/NftsContext";
+import ChooseFromList from "../../src/components/ChooseFromList";
 
-function DescriptionData(props) {
+function DescriptionData({ descriptions }) {
   const router = useRouter();
-  let { descriptions, intro, nfts, pudgyImg } = props;
 
-  const selectedDescription = router.query.descriptionTitle;
+  const activeTitle = router.query.descriptionTitle;
 
   return (
     <Fragment>
-      <Head>
-        <title>{selectedDescription.title}</title>
-        <meta name="home" lang="en" content="portfolio site" />
-      </Head>
-      <Provider value={pudgyImg}>
-        <BasePage
-          descriptions={descriptions}
-          intro={intro}
-          nfts={nfts}
-          pudgyImg={pudgyImg}
-          selectedTitle={selectedDescription.title}
-        />
-        <DisplayDescription
-          selectedTitle={selectedDescription}
-          descriptions={descriptions}
-        />
-      </Provider>
+      <ChooseFromList descriptions={descriptions} />
+      <DisplayDescription
+        selectedTitle={activeTitle}
+        descriptions={descriptions}
+      />
     </Fragment>
   );
 }
 
 export async function getStaticPaths() {
-  const DB_PW = process.env.MONGO_PW;
-
-  const clientDescription = await MongoClient.connect(
-    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
-  );
-
-  const dbDescription = clientDescription.db();
-  const descriptionCollection = dbDescription.collection("descriptions");
-
-  const descriptions = await descriptionCollection.find().toArray();
+  const descriptions = await get("descriptions");
 
   return {
     fallback: "blocking",
-    paths: descriptions.map((des) => ({
-      params: { descriptionTitle: des.title },
+    paths: descriptions.map(({ title }) => ({
+      params: { descriptionTitle: title },
     })),
   };
 }
 
-export async function getStaticProps(context) {
-  const title = context.params.descriptionTitle;
-
-  const DB_PW = process.env.MONGO_PW;
-
-  const clientDescription = await MongoClient.connect(
-    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/descriptionsDB?retryWrites=true&w=majority`
-  );
-
-  const clientNft = await MongoClient.connect(
-    `mongodb+srv://tito_admin:${DB_PW}@portfolio.kd4jadd.mongodb.net/images?retryWrites=true&w=majority`
-  );
-
-  const dbDescription = clientDescription.db();
-  const dbNft = clientNft.db();
-
-  const descriptionCollection = dbDescription.collection("descriptions");
-  const introCollection = dbDescription.collection("intro");
-  const nftsCollection = dbNft.collection("nfts");
-  const pudgyCollection = dbNft.collection("pudgy");
-
-  const descriptions = await descriptionCollection.find().toArray();
-  const nfts = await nftsCollection.find().toArray();
-  const intro = await introCollection.findOne();
-  const pudgy = await pudgyCollection.findOne();
-
-  const selectedDes = await descriptionCollection
-    .find({
-      title: title,
-    })
-    .toArray();
-
-  const selectedDescription = selectedDes[0];
-
-  clientDescription.close();
-  clientNft.close();
+export async function getStaticProps() {
+  const descriptions = await get("descriptions");
+  const intro = await get("intro");
+  const { carousel, pudgy } = await get("images");
 
   return {
     props: {
-      descriptions: descriptions.map((des) => ({
-        title: des.title,
-        description: des.description,
+      descriptions: descriptions.map(({ description, title }) => ({
+        title,
+        description,
       })),
-      intro: intro.intro,
-      nfts: nfts.map((nft) => ({
+      intro,
+      nfts: carousel.map((nft) => ({
         title: nft.name,
-        id: nft.id,
-        order: nft.order,
         isAnimated: nft.isAnimated,
-        imageUrl: !nft.isAnimated ? nft.metadata.image : null,
-        animationUrl: nft.isAnimated ? nft.metadata.animation_url : null,
+        imageUrl: !nft.isAnimated ? nft.image : null,
+        animationUrl: nft.isAnimated ? nft.animationUrl : null,
       })),
-      pudgyImg: pudgy.rawMetadata.image,
-      selectedDescription: {
-        title: selectedDescription.title,
-        description: selectedDescription.description,
-      },
-      init: true,
+      defaultNft: carousel[0].image,
+      pudgyImg: pudgy.image,
     },
     revalidate: 1,
   };
