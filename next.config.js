@@ -86,7 +86,14 @@ module.exports = {
         protocol: "https",
         port: "",
         pathname:
-          "/0xtito/portfolio-site/blob/master/images/gifs/atlanta.gif?raw=true",
+          "/0xtito/portfolio-site/blob/master/public/images/gifs/atlanta.gif?raw=true",
+        hostname: "github.com",
+      },
+      {
+        protocol: "https",
+        port: "",
+        pathname:
+          "/0xtito/portfolio-site/blob/master/public/images/gifs/kafka.gif?raw=true",
         hostname: "github.com",
       },
       {
