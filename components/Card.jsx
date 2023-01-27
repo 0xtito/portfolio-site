@@ -15,6 +15,7 @@ export default function Card({ nfts, defaultNft, pudgyImg, intro }) {
       <Head>
         <title>{activePage ? `0xtito - ${activePage}` : "0xtito - home"}</title>
         <meta name="0xtito" lang="en" content="portfolio site" />
+<<<<<<< HEAD
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -33,6 +34,8 @@ export default function Card({ nfts, defaultNft, pudgyImg, intro }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest"></link>
+=======
+>>>>>>> d8e2226 (rearranged folder structure)
       </Head>
       <Image
         width={75}
