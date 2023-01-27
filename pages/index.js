@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import { get } from "@vercel/edge-config";
 
-import ChooseFromList from "../src/components/ChooseFromList";
+import ChooseFromList from "../components/ChooseFromList";
 
-function MainPage({ descriptions }) {
+function MainPage({ titles }) {
   return (
     <Fragment>
-      <ChooseFromList descriptions={descriptions} />
+      <ChooseFromList titles={titles} />
     </Fragment>
   );
 }
@@ -16,14 +16,13 @@ export async function getStaticProps() {
   const intro = await get("intro");
   const { carousel, pudgy } = await get("images");
 
-  // descriptions.map(({ title }) => title);
-
   return {
     props: {
       descriptions: descriptions.map(({ description, title }) => ({
         title,
         description,
       })),
+      titles: descriptions.map(({ title }) => title),
       intro,
       nfts: carousel.map((nft) => ({
         title: nft.name,

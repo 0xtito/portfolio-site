@@ -2,17 +2,17 @@ import { useRouter } from "next/router";
 import { Fragment } from "react";
 import { get } from "@vercel/edge-config";
 
-import DisplayDescription from "../../src/components/DisplayDescription";
-import ChooseFromList from "../../src/components/ChooseFromList";
+import DisplayDescription from "../../components/DisplayDescription";
+import ChooseFromList from "../../components/ChooseFromList";
 
-function DescriptionData({ descriptions }) {
+function DescriptionData({ descriptions, titles }) {
   const router = useRouter();
 
   const activeTitle = router.query.descriptionTitle;
 
   return (
     <Fragment>
-      <ChooseFromList descriptions={descriptions} />
+      <ChooseFromList titles={titles} />
       <DisplayDescription
         selectedTitle={activeTitle}
         descriptions={descriptions}
@@ -32,7 +32,8 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
+  const activeTitle = context.params.descriptionTitle;
   const descriptions = await get("descriptions");
   const intro = await get("intro");
   const { carousel, pudgy } = await get("images");
@@ -43,6 +44,7 @@ export async function getStaticProps() {
         title,
         description,
       })),
+      titles: descriptions.map(({ title }) => title),
       intro,
       nfts: carousel.map((nft) => ({
         title: nft.name,
