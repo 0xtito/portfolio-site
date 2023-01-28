@@ -4,6 +4,7 @@ import _ from "lodash";
 
 function ShowNfts({ nfts, defaultNft }) {
   const [image, setImage] = useState(defaultNft);
+  const isAnimated = useRef(false);
   const count = useRef(0);
   const id = useRef();
   const curCaption = useRef("lonely nights");
@@ -17,9 +18,11 @@ function ShowNfts({ nfts, defaultNft }) {
     if (nft.isAnimated) {
       timeLeft.current = 4500;
       setImage(nfts[index].animationUrl);
+      isAnimated.current = true;
     } else {
       timeLeft.current = 3000;
       setImage(nfts[index].imageUrl);
+      isAnimated.current = false;
     }
   };
 
@@ -40,6 +43,7 @@ function ShowNfts({ nfts, defaultNft }) {
         alt="nft"
         className="nft-image"
         src={image}
+        loader={isAnimated.current == true ? () => image : null}
         onMouseOver={(e) => {
           let image = e.currentTarget;
           let parent = image.parentElement;
