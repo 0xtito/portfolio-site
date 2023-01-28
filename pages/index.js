@@ -18,11 +18,19 @@ export async function getStaticProps() {
     : "http://localhost:3000";
 
   try {
-    const images = await fetch(`${apiUrl}/api/nfts`);
+    const images = await fetch(`${apiUrl}/api/nfts`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
     console.log(images);
     const { carousel, pudgy } = await images.json();
     console.log(pudgy);
-    const content = await fetch(`${apiUrl}/api/content`);
+    const content = await fetch(`${apiUrl}/api/content`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
     console.log(content);
     const { descriptions, intro } = await content.json();
     console.log(intro);
