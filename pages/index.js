@@ -20,14 +20,14 @@ export async function getStaticProps() {
   const apiUrl = "https://portfolio-site-13ngakkxa-0xtito.vercel.app/";
 
   try {
-    const images = await fetch(`${apiUrl}/api/nfts`, {
+    const images = await fetch(`/api/nfts`, {
       headers: {
         "Content-type": "application/json",
       },
     });
     const { carousel, pudgy } = await images.json();
     console.log(pudgy);
-    const content = await fetch(`${apiUrl}/api/content`, {
+    const content = await fetch(`/api/content`, {
       headers: {
         "Content-type": "application/json",
       },
