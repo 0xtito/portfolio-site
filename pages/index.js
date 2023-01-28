@@ -13,7 +13,7 @@ function MainPage({ titles }) {
 }
 
 export async function getStaticProps() {
-  const apiUrl = process.env.VERCEL_URL
+  const apiUrl = process.env.VERCEL_ENV
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
 
