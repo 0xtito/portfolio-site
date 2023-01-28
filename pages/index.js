@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { get } from "@vercel/edge-config";
+import path from "path";
 
 import ChooseFromList from "../components/ChooseFromList";
 

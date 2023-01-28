@@ -5,7 +5,7 @@ import { get } from "@vercel/edge-config";
 import DisplayDescription from "../../components/DisplayDescription";
 import ChooseFromList from "../../components/ChooseFromList";
 
-function DescriptionData({ descriptions, titles }) {
+function DescriptionData({ descriptions, titles, selectedDescription }) {
   const router = useRouter();
 
   const activeTitle = router.query.descriptionTitle;
@@ -16,6 +16,7 @@ function DescriptionData({ descriptions, titles }) {
       <DisplayDescription
         selectedTitle={activeTitle}
         descriptions={descriptions}
+        selectedDescription={selectedDescription}
       />
     </Fragment>
   );
@@ -32,8 +33,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps(context) {
-  const activeTitle = context.params.descriptionTitle;
+export async function getStaticProps() {
   const descriptions = await get("descriptions");
   const intro = await get("intro");
   const { carousel, pudgy } = await get("images");

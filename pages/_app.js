@@ -10,6 +10,7 @@ function PortfolioSite({ Component, pageProps }) {
         activeDescription={pageProps.activeDescription}
         descriptions={pageProps.descriptions}
         titles={pageProps.titles}
+        selectedDescription={pageProps.selectedDescription}
       />
     </div>
   );
