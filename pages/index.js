@@ -18,12 +18,14 @@ export async function getStaticProps() {
     : "http://localhost:3000";
 
   try {
-    const { carousel, pudgy } = await (
-      await fetch(`${apiUrl}/api/nfts`)
-    ).json();
-    const { descriptions, intro } = await (
-      await fetch(`${apiUrl}/api/content`)
-    ).json();
+    const images = await fetch(`${apiUrl}/api/nfts`);
+    console.log(images);
+    const { carousel, pudgy } = await images.json();
+    console.log(pudgy);
+    const content = await fetch(`${apiUrl}/api/content`);
+    console.log(content);
+    const { descriptions, intro } = await content.json();
+    console.log(intro);
 
     return {
       props: {
