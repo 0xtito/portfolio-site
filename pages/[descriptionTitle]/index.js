@@ -36,8 +36,9 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const activeTitle = context.params.descriptionTitle;
   const apiUrl = process.env.VERCEL_ENV
-    ? `https://${process.env.VERCEL_URL}`
+    ? process.env.VERCEL_URL
     : "http://localhost:3000";
+  console.log(process.VERCEL_URL);
 
   try {
     const images = await fetch(`${apiUrl}/api/nfts`, {
@@ -45,7 +46,6 @@ export async function getStaticProps(context) {
         "Content-type": "application/json",
       },
     });
-    console.log(images);
     const { carousel, pudgy } = await images.json();
     console.log(pudgy);
     const content = await fetch(`${apiUrl}/api/content`, {
