@@ -13,7 +13,9 @@ function MainPage({ titles }) {
 }
 
 export async function getStaticProps() {
-  const apiUrl = process.env.VERCEL_URL || "http://localhost:3000";
+  const apiUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
 
   try {
     const { carousel, pudgy } = await (
