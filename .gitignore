@@ -3,7 +3,7 @@
 .cache
 dist
 node_modules
-src/.DS_Store
+.DS_Store
 .next
 .npmrc
 pastWork.js
