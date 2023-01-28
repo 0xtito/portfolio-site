@@ -35,7 +35,9 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const activeTitle = context.params.descriptionTitle;
-  const apiUrl = process.env.VERCEL_URL || "http://localhost:3000";
+  const apiUrl = process.env.VERCEL_ENV
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
 
   try {
     const { carousel, pudgy } = await (
