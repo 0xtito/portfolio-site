@@ -24,9 +24,9 @@ function DisplayDescription({
 
   return (
     <Fragment>
-      <div className="back-container">
-        <p
-          className="back"
+      <div className="cursor-default row-start-3 row-end-4 col-start-1 col-end-2">
+        <a
+          className="text-start text-sm mt-0 pt-0 cursor-pointer hover:text-blue-island"
           onClick={() => {
             router.replace("/", undefined, {
               shallow: true,
@@ -34,10 +34,10 @@ function DisplayDescription({
           }}
         >
           back
-        </p>
+        </a>
       </div>
-      <div className="description-container">
-        <p className="description">{currentDescription.description}</p>
+      <div className="col-start-2 col-end-4">
+        <p className="p-0 pr-40 text-sm">{currentDescription.description}</p>
       </div>
     </Fragment>
   );

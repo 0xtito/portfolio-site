@@ -6,15 +6,17 @@ function ChooseFromList({ titles }) {
   const id = router.query;
 
   return (
-    <div id="list-container" className="list-container">
-      <ol id="list" className="list">
+    <div className="m-auto mt-0 ml-0 row-start-2 row-end-3 col-start-3 col-end-3">
+      <ol>
         {titles.map((title) => (
-          <li key={title} id={title}>
+          <li key={title} id={title} className="m-auto pt-0.5 list-none ">
             <Link
               shallow={true}
               href={`/${title}`}
-              className={`list-item ${
-                id.descriptionTitle == title ? "clicked" : "not-clicked"
+              className={` hover:text-blue-island cursor-pointer transition-all duration-200 ease-linear  ${
+                id.descriptionTitle == title
+                  ? "text-blue-island"
+                  : "text-off-white"
               }`}
               id={title}
               onClick={(e) => {
@@ -22,15 +24,18 @@ function ChooseFromList({ titles }) {
                 for (let i = 0; i < list.length; i++) {
                   let a = list[i].children.item(0);
                   if (a.innerHTML == e.currentTarget.innerHTML) {
-                    if (!a.classList.contains("clicked")) {
-                      a.classList.replace("not-clicked", "clicked");
-                      list[i].id = "clicked";
+                    if (!a.classList.contains("text-blue-island")) {
+                      a.classList.replace("text-off-white", "text-blue-island");
+                      list[i].id = "text-blue-island";
                     }
                   } else {
                     list[i].id = "";
-                    a.classList.contains("clicked")
-                      ? a.classList.replace("clicked", "not-clicked")
-                      : a.classList.add("not-clicked");
+                    a.classList.contains("text-blue-island")
+                      ? a.classList.replace(
+                          "text-blue-island",
+                          "text-off-white"
+                        )
+                      : a.classList.add("text-off-white");
                   }
                 }
               }}

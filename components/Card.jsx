@@ -19,16 +19,14 @@ export default function Card({ nfts, defaultNft, pudgyImg, intro }) {
       <Image
         width={75}
         height={75}
-        className="pudgy"
+        className="rounded-full col-span-1 row-span-1 w-75 h-75 mt-0 mx-auto"
         alt="lil pudgy"
         src={pudgyImg}
       ></Image>
-      <div className="intro_content content_width">{intro}</div>
-      <Title
-        title="0xtito"
-        titleWithHover="0xtito.eth"
-        phrase="'Not Today'"
-      ></Title>
+      <div className="my-0 mr-auto ml-0 col-start-2 col-end-4 text-base">
+        {intro}
+      </div>
+      <Title phrase="'Not Today'"></Title>
       <ShowNfts nfts={nfts} defaultNft={defaultNft} />
     </Fragment>
   );

@@ -36,12 +36,12 @@ function ShowNfts({ nfts, defaultNft }) {
   };
 
   return (
-    <div className="image-container">
+    <div className="mx-auto mt-0 mb-auto row-start-1 row-end-3 col-start-4 col-end-5">
       <Image
-        height={350}
-        width={350}
+        height={320}
+        width={320}
         alt="nft"
-        className="nft-image"
+        className="w-80 h-80 max-h-max rounded-md"
         src={image}
         loader={isAnimated.current == true ? () => image : null}
         onMouseOver={(e) => {
@@ -50,8 +50,8 @@ function ShowNfts({ nfts, defaultNft }) {
           let children = parent.children;
           for (let i = 0; i < children.length; i++) {
             let child = children[i];
-            if (child.classList.contains("hide-caption")) {
-              child.classList.replace("hide-caption", "show-caption");
+            if (child.classList.contains("opacity-0")) {
+              child.classList.replace("opacity-0", "opacity-100");
             }
           }
         }}
@@ -61,8 +61,8 @@ function ShowNfts({ nfts, defaultNft }) {
           let children = parent.children;
           for (let i = 0; i < children.length; i++) {
             let child = children[i];
-            if (child.classList.contains("show-caption")) {
-              child.classList.replace("show-caption", "hide-caption");
+            if (child.classList.contains("opacity-100")) {
+              child.classList.replace("opacity-100", "opacity-0");
             }
           }
         }}
@@ -70,7 +70,7 @@ function ShowNfts({ nfts, defaultNft }) {
           handleNewNft();
         }}
       ></Image>
-      <p className="image-title hide-caption">
+      <p className="text-center cursor-default my-0 mx-auto opacity-0 pt-2 transition-all duration-300 ease-in-out">
         {!curCaption.current ? "" : curCaption.current}
       </p>
     </div>
