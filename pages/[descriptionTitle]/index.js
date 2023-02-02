@@ -26,7 +26,7 @@ export async function getStaticPaths() {
   const descriptions = await get("descriptions");
 
   return {
-    fallback: "blocking",
+    fallback: false,
     paths: descriptions.map(({ title }) => ({
       params: { descriptionTitle: title },
     })),
