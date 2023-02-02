@@ -4,8 +4,10 @@
 dist
 node_modules
 .DS_Store
+public/.DS_Store
 .next
 .npmrc
 pastWork.js
 .vercel
 random
+.prettierrc
