@@ -41,7 +41,7 @@ function ShowNfts({ nfts, defaultNft }) {
         height={320}
         width={320}
         alt="nft"
-        className="w-80 h-80 max-h-max rounded-md"
+        className="hidden lg:grid w-80 h-80 max-h-max rounded-md"
         src={image}
         loader={isAnimated.current == true ? () => image : null}
         onMouseOver={(e) => {

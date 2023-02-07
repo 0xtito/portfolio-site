@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="footer items-center p-4 text-neutral-content absolute bottom-0">
-      <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+    <footer className="footer items-center p-4 text-neutral-content fixed bottom-0">
+      <div className="grid-flow-row sm:grid-flow-col gap-4  sm:justify-self-end">
         <div
           onClick={() => window.open("https://twitter.com/tito_cda", "_blank")}
         >

@@ -7,8 +7,8 @@ function Title({ phrase }) {
   };
 
   return (
-    <div className="mt-0 mr-auto mb-auto ml-0 cursor-default col-start-2 col-end-3">
-      <div className="text-5xl text-off-white m-auto">
+    <div className="my-auto lg:mt-0 mr-auto mb-auto ml-0 cursor-default col-start-2 col-end-3">
+      <div className="text-3xl md:text-5xl text-off-white m-auto">
         <a
           className="inline-block cursor-pointer hover:text-blue-island transition-all duration-300 ease-linear"
           onMouseOver={(e) => toggleTitleHover(e)}
@@ -22,7 +22,7 @@ function Title({ phrase }) {
         >
           0xtito
         </a>
-        <span className="inline-block cursor-default opacity-0 transition-all duration-300 ease-in-out">
+        <span className="hidden md:inline-block cursor-default opacity-0 transition-all duration-300 ease-in-out">
           .eth
         </span>
       </div>

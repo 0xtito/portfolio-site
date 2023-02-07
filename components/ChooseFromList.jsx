@@ -6,7 +6,7 @@ function ChooseFromList({ titles }) {
   const id = router.query;
 
   return (
-    <div className="m-auto mt-0 ml-0 row-start-2 row-end-3 col-start-3 col-end-3">
+    <div className="m-auto md:mt-0 md:ml-0 text-sm md:text-md row-start-2 row-end-3 col-start-3 col-end-3">
       <ol>
         {titles.map((title) => (
           <li key={title} id={title} className="m-auto pt-0.5 list-none ">
