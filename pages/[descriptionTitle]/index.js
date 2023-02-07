@@ -5,19 +5,11 @@ import { get } from "@vercel/edge-config";
 import DisplayDescription from "../../components/DisplayDescription";
 import ChooseFromList from "../../components/ChooseFromList";
 
-function DescriptionData({ descriptions, titles, selectedDescription }) {
-  const router = useRouter();
-
-  const activeTitle = router.query.descriptionTitle;
-
+function DescriptionData({ titles }) {
   return (
     <Fragment>
       <ChooseFromList titles={titles} />
-      <DisplayDescription
-        selectedTitle={activeTitle}
-        descriptions={descriptions}
-        selectedDescription={selectedDescription}
-      />
+      <DisplayDescription />
     </Fragment>
   );
 }
@@ -26,7 +18,7 @@ export async function getStaticPaths() {
   const descriptions = await get("descriptions");
 
   return {
-    fallback: "blocking",
+    fallback: false,
     paths: descriptions.map(({ title }) => ({
       params: { descriptionTitle: title },
     })),
@@ -40,10 +32,6 @@ export async function getStaticProps() {
 
   return {
     props: {
-      descriptions: descriptions.map(({ description, title }) => ({
-        title,
-        description,
-      })),
       titles: descriptions.map(({ title }) => title),
       intro,
       nfts: carousel.map((nft) => ({
