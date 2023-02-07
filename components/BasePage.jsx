@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import ShowNfts from "./ShowNfts";
 import Title from "./Title";
 
-export default function Card({ nfts, defaultNft, pudgyImg, intro }) {
+export default function BasePage({ nfts, defaultNft, pudgyImg, intro }) {
   const router = useRouter();
   const activePage = router.query.descriptionTitle;
 
@@ -19,11 +19,11 @@ export default function Card({ nfts, defaultNft, pudgyImg, intro }) {
       <Image
         width={75}
         height={75}
-        className="rounded-full col-span-1 row-span-1 w-75 h-75 mt-0 mx-auto"
+        className="hidden lg:grid rounded-full col-span-1 row-span-1  mt-0 mx-auto"
         alt="lil pudgy"
         src={pudgyImg}
       ></Image>
-      <div className="my-0 mr-auto ml-0 col-start-2 col-end-4 text-base">
+      <div className="my-0 mr-auto ml-0 row-start-1 col-start-1 md:col-start-2 lg:col-end-4 col-end-5  text-base">
         {intro}
       </div>
       <Title phrase="'Not Today'"></Title>
