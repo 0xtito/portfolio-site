@@ -19,10 +19,6 @@ export async function getStaticProps() {
 
   return {
     props: {
-      descriptions: descriptions.map(({ description, title }) => ({
-        title,
-        description,
-      })),
       titles: descriptions.map(({ title }) => title),
       intro,
       nfts: carousel.map((nft) => ({

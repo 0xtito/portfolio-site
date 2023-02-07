@@ -2,7 +2,7 @@ import "../public/index.css";
 import React, { Fragment } from "react";
 import { useRouter } from "next/router";
 
-import Card from "../components/Card";
+import BasePage from "../components/BasePage";
 import Footer from "../components/Footer";
 
 function PortfolioSite({ Component, pageProps }) {
@@ -14,14 +14,9 @@ function PortfolioSite({ Component, pageProps }) {
 
   return (
     <Fragment>
-      <div className="content-grid grid p-8 grid-flow-row pb-0">
-        <Card {...pageProps} />
-        <Component
-          activeDescription={pageProps.activeDescription}
-          descriptions={pageProps.descriptions}
-          titles={pageProps.titles}
-          selectedDescription={pageProps.selectedDescription}
-        />
+      <div className="content-grid grid gap-y-3 lg:gap-0 p-4 md:p-8 2xl:p-32 grid-flow-row pb-0">
+        <BasePage {...pageProps} />
+        <Component titles={pageProps.titles} />
       </div>
       <Footer />
     </Fragment>
