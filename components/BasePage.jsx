@@ -26,7 +26,7 @@ export default function BasePage({ nfts, defaultNft, pudgyImg, intro }) {
       <div className="my-0 mr-auto ml-0 row-start-1 col-start-1 md:col-start-2 lg:col-end-4 col-end-5  text-base">
         {intro}
       </div>
-      <Title phrase="'Not Today'"></Title>
+      <Title phrase='"my big fish must be somewhere"'></Title>
       <ShowNfts nfts={nfts} defaultNft={defaultNft} />
     </Fragment>
   );

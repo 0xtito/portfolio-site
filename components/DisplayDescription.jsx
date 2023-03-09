@@ -200,7 +200,7 @@ function DisplayDescription() {
                   <a
                     onClick={() =>
                       window.open(
-                        "https://github.com/0xtito/portfolio-site",
+                        "https://github.com/0xtito/UrNFTrader",
                         "_blank"
                       )
                     }
@@ -233,6 +233,23 @@ function DisplayDescription() {
                 </p>
                 <p className="list-item text-left list-inside ml-6 ">
                   the eventual merge of the blockchain and IoT/Real World Assets
+                </p>
+                <p className="list-item text-left list-inside ml-6 ">
+                  <a
+                    onClick={() =>
+                      window.open(
+                        "https://ethereum.org/en/roadmap/account-abstraction/",
+                        "_blank"
+                      )
+                    }
+                    className="hover:text-blue-island cursor-pointer transition-all duration-200 ease-in-out"
+                  >
+                    Account Abstraction
+                  </a>
+                </p>
+                <p className="list-item text-left list-inside ml-6 ">
+                  the inevitable merge of the blockchain and IoT/Real World
+                  Assets
                 </p>
                 <p className="list-item text-left list-inside ml-6 ">
                   <a
