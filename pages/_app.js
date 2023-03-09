@@ -1,6 +1,7 @@
 import "../public/index.css";
 import React, { Fragment } from "react";
 import { useRouter } from "next/router";
+import { Analytics } from "@vercel/analytics/react";
 
 import BasePage from "../components/BasePage";
 import Footer from "../components/Footer";
@@ -19,6 +20,7 @@ function PortfolioSite({ Component, pageProps }) {
         <Component titles={pageProps.titles} />
       </div>
       <Footer />
+      <Analytics />
     </Fragment>
   );
 }
