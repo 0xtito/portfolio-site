@@ -15,7 +15,7 @@ function PortfolioSite({ Component, pageProps }) {
 
   return (
     <Fragment>
-      <div className="content-grid grid gap-y-3 lg:gap-0 p-4 md:p-8 2xl:p-32 grid-flow-row pb-0">
+      <div className="content-grid grid gap-y-3 lg:gap-0 p-4 md:p-8 grid-flow-row pb-0">
         <BasePage {...pageProps} />
         <Component titles={pageProps.titles} />
       </div>
