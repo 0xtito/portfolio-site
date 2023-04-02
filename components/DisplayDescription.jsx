@@ -125,18 +125,21 @@ function DisplayDescription() {
                   <a
                     onClick={() =>
                       window.open(
-                        "https://github-battle-0xtito.vercel.app/",
+                        "https://ethglobal.com/showcase/abstrade-p0j2c",
                         "_blank"
                       )
                     }
                     className="hover:text-blue-island cursor-pointer transition-all duration-200 ease-in-out"
                   >
-                    github battle
+                    Abstrade
                   </a>
-                  . A website that tracks the most popular repos from several
-                  coding languages. Also allows you to "battle" other Github
-                  users based on followers, repos, and a few other metrics. This
-                  was done as a project in ui.dev.
+                  . A Permissionless, non-custodial, peer to peer, on-chain
+                  limit order trading protocol built on Gnosis Chain for cheap
+                  gas and ERC-4337 account abstraction for easy UX. A team of 3
+                  others and I built this for the Scaling Ethereum Hackathon. I
+                  focused on the frontend built out with React.js, Next.js, and
+                  Tailwind. I built an API to interact with the user's smart
+                  contract wallet and the Entry Point Contract.
                 </p>
               </div>
               <div className="text-base mb-5 lg:pr-36">
@@ -196,23 +199,22 @@ function DisplayDescription() {
               <div className="text-base mb-5 lg:pr-36">
                 <h3 className="italic text-xl mb-1">projects</h3>
                 <p className="list-item text-left list-inside ml-6">
-                  building a proper front-end for{" "}
+                  Currently building a fullstack application (private repo)
+                  called{" "}
                   <a
                     onClick={() =>
-                      window.open(
-                        "https://github.com/0xtito/UrNFTrader",
-                        "_blank"
-                      )
+                      window.open("https://github.com/0xtito", "_blank")
                     }
                     className="hover:text-blue-island cursor-pointer transition-all duration-200 ease-in-out"
                   >
-                    UrNFTrader
+                    So What Happened
                   </a>{" "}
-                  . Add/optimize the smart contracts to be able to set limit
-                  sell orders. Other ideas to improve upon UrNFTrader are:
-                  remove the need for me to control the user's assets at any
-                  point, create presistant data storage, and possibly, implement
-                  account abstraction.
+                  . The app wil leverage GPT-3.5, LangChain, and SerpApi to
+                  create articles about current events, such as breaking news.
+                  By utilizing ChainLang with OpenAI, the app queries the
+                  internet for relevant information, creates documents, and
+                  feeds them into GPT-3.5 for natural language processing and
+                  content generation
                 </p>
               </div>
             </Fragment>
@@ -252,18 +254,28 @@ function DisplayDescription() {
                   Assets
                 </p>
                 <p className="list-item text-left list-inside ml-6 ">
+                  Language Learning Models and how they will integrated into
+                  modern applications with tools like{" "}
+                  <a
+                    onClick={() =>
+                      window.open("https://docs.langchain.com/docs/", "_blank")
+                    }
+                    className="hover:text-blue-island cursor-pointer transition-all duration-200 ease-in-out"
+                  >
+                    LangChain
+                  </a>{" "}
+                  and{" "}
                   <a
                     onClick={() =>
                       window.open(
-                        "https://www.ibm.com/topics/natural-language-processing",
+                        "https://platform.openai.com/docs/plugins/introduction",
                         "_blank"
                       )
                     }
                     className="hover:text-blue-island cursor-pointer transition-all duration-200 ease-in-out"
                   >
-                    Natural Language Processing
-                  </a>{" "}
-                  (only have a conceptual grasp of it)
+                    OpenAI Plugins
+                  </a>
                 </p>
               </div>
               <div className="text-base mb-5 lg:pr-36">
